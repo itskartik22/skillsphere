@@ -12,6 +12,7 @@ const CourseCart = () => {
   const [itemCount, setItemCount] = useState(0);
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const [courses, setCourses] = useState([]);
+  const [courseLength, setCourseLength] = useState(0);
   useEffect(() => {
     //Fetching Cart Courses
     axios({
@@ -21,6 +22,7 @@ const CourseCart = () => {
     })
       .then((res) => {
         setCourses(res.data.data.cartCourses);
+        setCourseLength(courses.length);
       })
       .catch((err) => {
         alert(err.message);
@@ -31,7 +33,7 @@ const CourseCart = () => {
     setTimeout(() => {
       setIsPaymentProcessing(false);
     }, 5000);
-  }, [isPaymentProcessing, courses.length]);
+  }, [isPaymentProcessing, courseLength]);
   //Setting isPaymentProcessing True
   const handlePaymentProcessing = () => {
     const cartCourseIds = courses.map((course) => course._id);

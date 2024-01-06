@@ -6,6 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 const EnrolledCourses = () => {
   const { user } = useAuth();
   const [courses, setCourses] = useState([]);
+  const [courseLength, setCourseLength] = useState(0);
   const token = user.token;
   useEffect(() => {
     axios({
@@ -15,12 +16,13 @@ const EnrolledCourses = () => {
     })
       .then((res) => {
         setCourses(res.data.data.coursesEnrolled);
+        setCourseLength(courses.length);
       })
       .catch((err) => {
         alert(err.response.data.message);
       });
-  }, [courses.length]);
-  if (courses.length === 0) {
+  }, [courseLength]);
+  if (courseLength === 0) {
     return (
       <div className="w-3/4 px-2 py-8 justify-items-center">
         <div className="flex flex-col w-full">
