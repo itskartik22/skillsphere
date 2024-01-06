@@ -4,7 +4,7 @@ const Users = () => {
         <div className="my-2 mx-4">
         <h2 className="text-lg font-semibold">Users List</h2>
         <div className="flex flex-col">
-            <UserList />
+            {/* <UserList /> */}
         </div>
         </div>
     </div>
