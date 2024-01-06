@@ -7,7 +7,6 @@ const OurCourses = () => {
   const { user } = useAuth();
   const [courses, setCourses] = useState([]);
   const [courseLength, setCourseLength] = useState(0);
-  console.log(typeof courses);
   // Course Added to Cart
   const handleAddToCart = (courseId) => {
     const token = user.token;
@@ -29,12 +28,14 @@ const OurCourses = () => {
     axios
       .get("/api/v1/courses")
       .then((res) => {
+        console.log(res);
         setCourses(res.data.courses);
         setCourseLength(courses.length);
       })
       .catch((err) => {
         alert(err.response.data.data.message);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseLength]);
   const getAllCourse = courses?.map((course) => (
     <CoursesCard

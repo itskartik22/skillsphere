@@ -21,6 +21,7 @@ const EnrolledCourses = () => {
       .catch((err) => {
         alert(err.response.data.message);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseLength]);
   if (courseLength === 0) {
     return (

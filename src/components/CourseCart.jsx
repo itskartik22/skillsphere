@@ -33,6 +33,7 @@ const CourseCart = () => {
     setTimeout(() => {
       setIsPaymentProcessing(false);
     }, 5000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPaymentProcessing, courseLength]);
   //Setting isPaymentProcessing True
   const handlePaymentProcessing = () => {
@@ -72,7 +73,8 @@ const CourseCart = () => {
       });
   };
   //Cost Variable Calculating Function
-  const costVariable = () => {
+
+  function costVariable() {
     let costSum = 0;
     let discountSum = 0;
     let itemCnt = 0;
@@ -84,7 +86,8 @@ const CourseCart = () => {
     setTotalCost(costSum.toFixed(2));
     setTotalDiscount(discountSum.toFixed(2));
     setItemCount(itemCnt);
-  };
+    return null;
+  }
   if (isPaymentProcessing) return <PaymentProcessing />;
   return (
     <div
