@@ -1,4 +1,4 @@
-import {Home, Users, Courses, Notifications, Security, Setting} from './../components/dashboard/main'
+import {Users, Courses, Notifications, Security, Setting} from './../components/dashboard/main'
 
 const ContentManager = ({activeDashboardMenu}) => {
   const navbarHeight = "59.2px";

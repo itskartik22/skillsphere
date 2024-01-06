@@ -7,6 +7,7 @@ const OurCourses = () => {
   const { user } = useAuth();
   const [courses, setCourses] = useState([]);
   const [courseLength, setCourseLength] = useState(0);
+  console.log(typeof courses);
   // Course Added to Cart
   const handleAddToCart = (courseId) => {
     const token = user.token;
@@ -35,7 +36,7 @@ const OurCourses = () => {
         alert(err.response.data.data.message);
       });
   }, [courseLength]);
-  const getAllCourse = courses.map((course) => (
+  const getAllCourse = courses?.map((course) => (
     <CoursesCard
       key={course._id}
       course={course}
