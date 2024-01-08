@@ -17,7 +17,7 @@ const CourseCart = () => {
     //Fetching Cart Courses
     axios({
       method: "get",
-      url: "/api/v1/users/cart-courses",
+      url: `${baseURL}/api/v1/users/cart-courses`,
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
