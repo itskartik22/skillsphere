@@ -70,7 +70,7 @@ const CourseCart = () => {
   const handleCourseDeletionById = (courseId) => {
     axios({
       method: "delete",
-      url: `/api/v1/users/cart-course/${courseId}`,
+      url: `${baseURL}/api/v1/users/cart-course/${courseId}`,
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
