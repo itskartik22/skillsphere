@@ -15,9 +15,7 @@ const OurCourses = () => {
       url: `${baseURL}/api/v1/users/cart-course/${courseId}`,
       headers: { Authorization: "Bearer " + token },
     })
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
         alert(err.response.data.message);
@@ -30,7 +28,6 @@ const OurCourses = () => {
       url: `${baseURL}/api/v1/courses`,
     })
       .then((res) => {
-        console.log(res);
         setCourses(res.data.courses);
       })
       .catch((err) => {
