@@ -12,7 +12,6 @@ const CourseCart = () => {
   const [itemCount, setItemCount] = useState(0);
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const [courses, setCourses] = useState([]);
-  const [courseLength, setCourseLength] = useState(0);
   useEffect(() => {
     //Fetching Cart Courses
     axios({
@@ -22,19 +21,31 @@ const CourseCart = () => {
     })
       .then((res) => {
         setCourses(res.data.data.cartCourses);
-        setCourseLength(courses.length);
       })
       .catch((err) => {
         alert(err.message);
       });
     //Calling Cost Variable Calculation Function
+    function costVariable() {
+      let costSum = 0;
+      let discountSum = 0;
+      let itemCnt = 0;
+      courses.forEach((course) => {
+        costSum += course.price - (course.discount / 100) * course.price;
+        discountSum += (course.discount / 100) * course.price;
+        itemCnt++;
+      });
+      setTotalCost(costSum.toFixed(2));
+      setTotalDiscount(discountSum.toFixed(2));
+      setItemCount(itemCnt);
+      return null;
+    }
     costVariable();
     //Setting isPaymentProcessing False
     setTimeout(() => {
       setIsPaymentProcessing(false);
     }, 5000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPaymentProcessing, courseLength]);
+  }, [isPaymentProcessing, courses.length, token, courses]);
   //Setting isPaymentProcessing True
   const handlePaymentProcessing = () => {
     const cartCourseIds = courses.map((course) => course._id);
@@ -74,20 +85,6 @@ const CourseCart = () => {
   };
   //Cost Variable Calculating Function
 
-  function costVariable() {
-    let costSum = 0;
-    let discountSum = 0;
-    let itemCnt = 0;
-    courses.forEach((course) => {
-      costSum += course.price - (course.discount / 100) * course.price;
-      discountSum += (course.discount / 100) * course.price;
-      itemCnt++;
-    });
-    setTotalCost(costSum.toFixed(2));
-    setTotalDiscount(discountSum.toFixed(2));
-    setItemCount(itemCnt);
-    return null;
-  }
   if (isPaymentProcessing) return <PaymentProcessing />;
   return (
     <div
@@ -116,7 +113,7 @@ const CourseCart = () => {
           }}
         ></div>
         <div className="w-full flex flex-col gap-1">
-          {courses.map((course) => (
+          {courses?.map((course) => (
             <CartCard
               key={course._id}
               course={course}

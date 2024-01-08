@@ -2,10 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { NavProfileView } from "./NavProfileView";
 import { FaCartShopping } from "react-icons/fa6";
-import { useState } from "react";
+// import { useState } from "react";
 
 const Navbar = () => {
-  const [lightCart, setLightCart] = useState(true)
+  // const [lightCart, setLightCart] = useState(true)
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -23,7 +23,7 @@ const Navbar = () => {
               <Link to={"user/enrolled-courses"}>MyCourses</Link>
               <Link to={"wishlist"}>Wishlists</Link>
               <Link to={"user/course-cart"} className="relative">
-                <div className={`absolute w-3 h-3 bg-red-600 rounded-full -right-1 -top-1 ${lightCart ? "" : "hidden"}`}></div>
+                <div className={`absolute w-3 h-3 bg-red-600 rounded-full -right-1 -top-1 ${true ? "" : "hidden"}`}></div>
                 <FaCartShopping className="text-xl" />
               </Link>
             </ul>

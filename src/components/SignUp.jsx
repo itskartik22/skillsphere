@@ -15,7 +15,7 @@ const SignUp = () => {
       alert("Signed In");
       navigate("/");
     }
-  }, [user]);
+  }, [user, navigate]);
   const createUserFunc = async () => {
     if (
       userName !== "" &&

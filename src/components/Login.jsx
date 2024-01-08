@@ -13,7 +13,7 @@ const Login = () => {
       alert("loggedIn");
       navigate("/");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   const userLogin = async () => {
     if (userEmail !== "" && userPassword !== "") {

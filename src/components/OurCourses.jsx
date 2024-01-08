@@ -6,7 +6,6 @@ import { useAuth } from "../hooks/useAuth";
 const OurCourses = () => {
   const { user } = useAuth();
   const [courses, setCourses] = useState([]);
-  const [courseLength, setCourseLength] = useState(0);
   // Course Added to Cart
   const handleAddToCart = (courseId) => {
     const token = user.token;
@@ -30,13 +29,11 @@ const OurCourses = () => {
       .then((res) => {
         console.log(res);
         setCourses(res.data.courses);
-        setCourseLength(courses.length);
       })
       .catch((err) => {
         alert(err.response.data.data.message);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [courseLength]);
+  }, [courses.length]);
   const getAllCourse = courses?.map((course) => (
     <CoursesCard
       key={course._id}
