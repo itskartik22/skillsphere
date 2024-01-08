@@ -2,6 +2,7 @@ import { createContext, useContext, useMemo } from "react";
 import { useLocalStorage } from "./useLocalStorage.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import baseURL from "../config/config.js";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -11,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   //Authetication Function
   const login = async ({ userEmail, userPassword }) => {
     await axios
-      .post("/api/v1/users/login", {
+      .post(`${baseURL}/api/v1/users/login`, {
         email: userEmail,
         password: userPassword,
       })
@@ -27,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   };
   const signup = async ({ userName, userEmail, userPassword }) => {
     await axios
-      .post("/api/v1/users/signup", {
+      .post(`${baseURL}/api/v1/users/signup`, {
         username: userName,
         email: userEmail,
         password: userPassword,

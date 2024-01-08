@@ -2,6 +2,7 @@ import axios from "axios";
 import { EnrolledCourseCard } from ".";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import baseURL from "../config/config";
 
 const EnrolledCourses = () => {
   const { user } = useAuth();
@@ -10,7 +11,7 @@ const EnrolledCourses = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "/api/v1/users/enrolled-courses",
+      url: `${baseURL}/api/v1/users/enrolled-courses`,
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {

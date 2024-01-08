@@ -2,6 +2,7 @@ import axios from "axios";
 import { CoursesCard } from ".";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import baseURL from "../config/config";
 
 const OurCourses = () => {
   const { user } = useAuth();
@@ -11,7 +12,7 @@ const OurCourses = () => {
     const token = user.token;
     axios({
       method: "patch",
-      url: `/api/v1/users/cart-course/${courseId}`,
+      url: `${baseURL}/api/v1/users/cart-course/${courseId}`,
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
@@ -24,14 +25,16 @@ const OurCourses = () => {
   };
   useEffect(() => {
     //Courses imported
-    axios
-      .get("/api/v1/courses")
+    axios({
+      method: "get",
+      url: `${baseURL}/api/v1/courses`,
+    })
       .then((res) => {
         console.log(res);
         setCourses(res.data.courses);
       })
       .catch((err) => {
-        alert(err.response.data.data.message);
+        console.log(err);
       });
   }, [courses.length]);
   const getAllCourse = courses?.map((course) => (

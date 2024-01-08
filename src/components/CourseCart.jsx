@@ -3,6 +3,7 @@ import { CartCard, PaymentProcessing } from "./../components";
 import Button from "./Button";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
+import baseURL from "../config/config";
 
 const CourseCart = () => {
   const { user } = useAuth();
@@ -51,7 +52,7 @@ const CourseCart = () => {
     const cartCourseIds = courses.map((course) => course._id);
     axios({
       method: "patch",
-      url: "/api/v1/users/enroll-courses",
+      url: `${baseURL}/api/v1/users/enroll-courses`,
       headers: { Authorization: "Bearer " + token },
       data: {
         courseIds: cartCourseIds,
