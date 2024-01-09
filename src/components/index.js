@@ -18,3 +18,4 @@ export { default as EnrolledCourseCard } from "./EnrolledCourseCard";
 export { default as CourseCart } from "./CourseCart";
 export { default as CartCard } from "./CartCard";
 export { default as PaymentProcessing } from "./PaymentProcessing";
+export { default as Wishlist } from "./Wishlist";

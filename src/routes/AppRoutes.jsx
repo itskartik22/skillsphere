@@ -9,7 +9,8 @@ import {
   AdminDashboard,
   EnrolledCourses,
   InnerContainer,
-  CourseCart
+  CourseCart,
+  Wishlist
 } from "./../components";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
@@ -31,6 +32,7 @@ const AppRoutes = () => {
             <Route path="user/profile" element={<Profile />} />
             <Route path="user/setting" element={<Setting />} />
             <Route path="user/course-cart" element={<CourseCart />} />
+            <Route path="user/wishlist" element={<Wishlist />} />
           </Route>
           <Route element={<PublicRoute />}>
             <Route path="/" element={<Home />} />

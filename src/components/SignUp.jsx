@@ -122,7 +122,7 @@ const SignUp = () => {
                 Confirm password
               </label>
               <input
-                type="confirm-password"
+                type="password"
                 name="confirm-password"
                 id="confirm-password"
                 placeholder="••••••••"
@@ -134,7 +134,7 @@ const SignUp = () => {
                 }}
               />
             </div>
-            <div className="flex items-start">
+            {/* <div className="flex items-start">
               <div className="flex items-center h-5">
                 <input
                   id="terms"
@@ -158,7 +158,7 @@ const SignUp = () => {
                   </Link>
                 </label>
               </div>
-            </div>
+            </div> */}
             <button
               type="submit"
               className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
