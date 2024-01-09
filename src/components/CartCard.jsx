@@ -5,14 +5,14 @@ const CartCard = ({ course, handleCurrentCourseDeletion }) => {
   return (
     <div className="w-full flex rounded-md border-2 p-1 relative">
       <div className="w-3/5 flex gap-2">
-        <img src={Img} alt="" className="rounded-md" />
+        <img src={Img} alt="" className="md:w-auto w-20 rounded-md" />
         <div className="flex flex-col">
-          <h1 className="text-lg font-semibold">{course.title}</h1>
-          <p className="text-sm">
+          <h1 className="md:text-lg font-semibold">{course.title}</h1>
+          <p className="text-sm md:block hidden">
             By {course.instructor && course.instructor.instructorName}
           </p>
-          <p className="text-sm">Rating</p>
-          <p className="text-base font-semibold">Price: ₹{course.price} </p>
+          <p className="text-sm md:block hidden">Rating</p>
+          <p className="text-base md:font-semibold font-medium"><span className="md:inline-block hidden">Price:</span> ₹{course.price} </p>
         </div>
       </div>
       <span className="w-1/5 text-center self-center">{course.discount}%</span>

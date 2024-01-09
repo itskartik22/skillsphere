@@ -1,9 +1,10 @@
 import AppRoutes from "./routes/AppRoutes";
 import { Navbar } from "./components";
+import "./index.css";
 
 function App() {
   return (
-    <div className="App w-screen">
+    <div className="App">
       <Navbar />
       <AppRoutes />
     </div>

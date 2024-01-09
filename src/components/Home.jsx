@@ -2,7 +2,7 @@ import OurCourses from "./OurCourses";
 
 const Home = () => {
   return (
-    <div className="w-3/4 py-8 justify-items-center">
+    <div className="md:w-3/4 w-full py-8 md:px-0 sm:px-10 px-4  justify-items-center">
       <OurCourses />
     </div>
   );

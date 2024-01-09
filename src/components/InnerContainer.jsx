@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 
 const InnerContainer = () => {
   return (
-    <div className="w-screen flex flex-col items-center overflow-hidden">
+    <div className="w-screen flex justify-center">
       <Outlet />
     </div>
   );

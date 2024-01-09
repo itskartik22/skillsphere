@@ -89,12 +89,12 @@ const CourseCart = () => {
   if (isPaymentProcessing) return <PaymentProcessing />;
   return (
     <div
-      className="w-3/4 flex flex-row my-8 gap-2 rounded-md shadow-lg p-4"
+      className="md:w-3/4 w-full flex md:flex-row flex-col md:my-8 md:gap-2 gap-5 rounded-md shadow-lg p-4"
       style={{
         minHeight: `calc(100vh - 150px)`,
       }}
     >
-      <div className="w-2/3 flex flex-col items-start py-4 px-6 gap-2">
+      <div className="md:w-2/3 flex flex-col items-start py-4 md:px-6 gap-2">
         <h1 className="text-2xl font-semibold">Your Cart</h1>
         <div
           className="w-full bg-gray-300"
@@ -103,9 +103,13 @@ const CourseCart = () => {
           }}
         ></div>
         <div className="w-full flex">
-          <span className="w-3/5 text-center">Items</span>
-          <span className="w-1/5 text-center">Discount(%)</span>
-          <span className="w-1/5 text-center">Price</span>
+          <span className="w-3/5 md:text-center px-2">Items</span>
+          <span className="w-1/5 text-center md:inline-block hidden">
+            Discount(%)
+          </span>
+          <span className="w-1/5 text-center md:inline-block hidden">
+            Price
+          </span>
         </div>
         <div
           className="w-full bg-gray-300"
@@ -123,7 +127,7 @@ const CourseCart = () => {
           ))}
         </div>
       </div>
-      <div className="w-1/3 flex flex-col items-start gap-2 border-l-2 shadow-slate-500 py-4 px-6">
+      <div className="md:w-1/3 flex flex-col items-start gap-2 border-l-2 shadow-slate-500 py-4 px-6">
         <h1 className="text-2xl font-semibold">Order Summary</h1>
         <div
           className="w-full bg-gray-300"
