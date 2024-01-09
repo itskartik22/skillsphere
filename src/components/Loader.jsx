@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 const loadingContainer = {
   width: "4rem",
@@ -19,11 +19,13 @@ const loadingContainerVariants = {
   start: {
     transition: {
       staggerChildren: 0.2,
+      // loop: "Infinity"
     },
   },
   end: {
     transition: {
       staggerChildren: 0.2,
+      // loop: "Infinity"
     },
   },
 };
@@ -38,13 +40,14 @@ const loadingCircleVariants = {
 };
 const loadingCircleTransition = {
   duration : 0.4,
-  yoyo : Infinity,
+  repeat: Infinity,
+  repeatType: "mirror",
   ease: 'easeInOut'
 }
 
 const Loader = () => {
   return (
-    <div>
+    <AnimatePresence>
       <div className="fixed top-0 left-0 w-full min-h-screen z-50 bg-white opacity-30" />
       <div className="flex w-full justify-center items-center h-screen">
         <motion.div
@@ -58,11 +61,11 @@ const Loader = () => {
             variants={loadingCircleVariants}
             transition={loadingCircleTransition}
           ></motion.span>
-          <motion.span
-            style={loadingCircle}
-            variants={loadingCircleVariants}
-            transition={loadingCircleTransition}
-          ></motion.span>
+            <motion.span
+              style={loadingCircle}
+              variants={loadingCircleVariants}
+              transition={loadingCircleTransition}
+            ></motion.span>
           <motion.span
             style={loadingCircle}
             variants={loadingCircleVariants}
@@ -70,7 +73,7 @@ const Loader = () => {
           ></motion.span>
         </motion.div>
       </div>
-    </div>
+    </AnimatePresence>
   );
 };
 
