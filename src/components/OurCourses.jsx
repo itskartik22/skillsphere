@@ -12,7 +12,7 @@ const OurCourses = () => {
   const navigate = useNavigate();
   // Course Added to Cart
   const handleAddToCart = (courseId) => {
-    if (!user){
+    if (!user) {
       navigate("/login");
       return;
     }
@@ -36,13 +36,12 @@ const OurCourses = () => {
     })
       .then((res) => {
         setCourses(res.data.courses);
+        setIsFetching(false);
       })
       .catch((err) => {
         console.log(err);
+        setIsFetching(false);
       });
-    setTimeout(() => {
-      setIsFetching(false);
-    }, 3000);
   }, [courses.length]);
   const getAllCourse = courses?.map((course) => (
     <CoursesCard

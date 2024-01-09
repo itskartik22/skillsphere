@@ -17,14 +17,14 @@ const EnrolledCourses = () => {
     })
       .then((res) => {
         setCourses(res.data.data.coursesEnrolled);
+        setIsFetching(false);
       })
       .catch((err) => {
         alert(err.response.data.message);
+        setIsFetching(false);
       });
-    setTimeout(() => {
-      setIsFetching(false);
-    }, 3000);
   }, [courses.length, token]);
+
   if (isFetching) return <Loader />;
   if (courses.length === 0) {
     return (

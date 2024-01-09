@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CartCard, Loader, PaymentProcessing } from "./../components";
+import { CartCard, Loader } from "./../components";
 import Button from "./Button";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
@@ -13,6 +13,7 @@ const CourseCart = () => {
   const [itemCount, setItemCount] = useState(0);
   const [courses, setCourses] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [isPaymentProcessing, setIsPaymentProcessing] = useState(true);
   useEffect(() => {
     //Fetching Cart Courses
     axios({
@@ -22,13 +23,12 @@ const CourseCart = () => {
     })
       .then((res) => {
         setCourses(res.data.data.cartCourses);
+        setIsFetching(false);
       })
       .catch((err) => {
         alert(err.message);
+        setIsFetching(false);
       });
-    setTimeout(() => {
-      setIsFetching(false);
-    }, 3000);
     //Calling Cost Variable Calculation Function
     function costVariable() {
       let costSum = 0;
@@ -47,13 +47,13 @@ const CourseCart = () => {
     costVariable();
     //Setting isPaymentProcessing False
     setTimeout(() => {
-      setIsFetching(false);
-    }, 5000);
+      setIsPaymentProcessing(false);
+    }, 3000);
   }, [courses.length, token, courses]);
   //Setting isPaymentProcessing True
   const handlePaymentProcessing = () => {
-    if(courses.length === 0){
-      alert("No Course in Cart!")
+    if (courses.length === 0) {
+      alert("No Course in Cart!");
       return;
     }
     const cartCourseIds = courses.map((course) => course._id);
@@ -71,7 +71,7 @@ const CourseCart = () => {
       .catch((err) => {
         alert(err.response.data.data.message);
       });
-    setIsFetching(true);
+    setIsPaymentProcessing(true);
   };
 
   const handleCourseDeletionById = (courseId) => {
@@ -93,6 +93,7 @@ const CourseCart = () => {
   };
   //Cost Variable Calculating Function
   if (isFetching) return <Loader />;
+  if (isPaymentProcessing) return <Loader />;
   return (
     <div
       className="md:w-3/4 w-full flex md:flex-row flex-col md:my-8 md:gap-2 gap-5 rounded-md shadow-lg p-4"
