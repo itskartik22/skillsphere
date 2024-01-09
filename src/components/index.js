@@ -19,3 +19,4 @@ export { default as CourseCart } from "./CourseCart";
 export { default as CartCard } from "./CartCard";
 export { default as PaymentProcessing } from "./PaymentProcessing";
 export { default as Wishlist } from "./Wishlist";
+export { default as Loader } from "./Loader";

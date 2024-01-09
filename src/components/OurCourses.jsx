@@ -1,14 +1,21 @@
 import axios from "axios";
-import { CoursesCard } from ".";
+import { CoursesCard, Loader } from ".";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import baseURL from "../config/config";
+import { useNavigate } from "react-router-dom";
 
 const OurCourses = () => {
   const { user } = useAuth();
   const [courses, setCourses] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
+  const navigate = useNavigate();
   // Course Added to Cart
   const handleAddToCart = (courseId) => {
+    if (!user){
+      navigate("/login");
+      return;
+    }
     const token = user.token;
     axios({
       method: "patch",
@@ -33,6 +40,9 @@ const OurCourses = () => {
       .catch((err) => {
         console.log(err);
       });
+    setTimeout(() => {
+      setIsFetching(false);
+    }, 3000);
   }, [courses.length]);
   const getAllCourse = courses?.map((course) => (
     <CoursesCard
@@ -41,10 +51,13 @@ const OurCourses = () => {
       handleAddToCart={handleAddToCart}
     />
   ));
+  if (isFetching) return <Loader />;
 
   return (
     <div className="w-full flex justify-center flex-col">
-      <h2 className="md:text-4xl sm:text-3xl text-2xl md:font-semibold font-medium">Our Courses</h2>
+      <h2 className="md:text-4xl sm:text-3xl text-2xl md:font-semibold font-medium">
+        Our Courses
+      </h2>
       <div className="w-full border-2 my-2"></div>
       <div className="w-full flex flex-row justify-evenly items-center flex-wrap gap-10 p-2">
         {/* <CoursesCard /> */}
