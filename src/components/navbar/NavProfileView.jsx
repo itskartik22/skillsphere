@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
 import { MdDashboardCustomize } from "react-icons/md";

@@ -1,4 +1,4 @@
-import courseImg from "./../img/courseImg.png";
+import courseImg from "./../../../img/courseImg.png";
 
 const EnrolledCoursesCard = ({ course }) => {
   // console.log(course);

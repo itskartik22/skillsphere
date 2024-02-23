@@ -6,15 +6,15 @@ import {
   Setting,
   Profile,
   PageNotFound,
+  PermissionDenied,
   AdminDashboard,
   EnrolledCourses,
   InnerContainer,
   CourseCart,
-  Wishlist
+  Wishlist,
 } from "./../components";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
-import PermissionDenied from "../components/PermissionDenied";
 
 const AppRoutes = () => {
   return (

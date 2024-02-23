@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { NavProfileView } from "./NavProfileView";
 import { FaCartShopping } from "react-icons/fa6";
 // import { useState } from "react";

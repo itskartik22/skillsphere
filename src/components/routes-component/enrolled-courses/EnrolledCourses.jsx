@@ -1,8 +1,8 @@
 import axios from "axios";
-import { EnrolledCourseCard, Loader } from ".";
+import { EnrolledCourseCard, Loader } from "../..";
 import { useEffect, useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import baseURL from "../config/config";
+import { useAuth } from "../../../hooks/useAuth";
+import baseURL from "../../../config/config";
 
 const EnrolledCourses = () => {
   const { user } = useAuth();
@@ -40,7 +40,7 @@ const EnrolledCourses = () => {
     );
   }
   return (
-    <div className="md:w-3/4 w-full py-8 md:px-0 sm:px-10 px-4  justify-items-center">
+    <div className="md:w-3/4 min-h-screen w-full py-8 md:px-0 sm:px-10 px-4  justify-items-center">
       <div className="w-full flex justify-center flex-col">
         <h2 className="md:text-4xl sm:text-3xl text-2xl md:font-semibold font-medium">
           Enrolled Courses

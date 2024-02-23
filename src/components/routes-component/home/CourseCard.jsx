@@ -1,5 +1,4 @@
-import courseImg from "./../img/courseImg.png";
-import { Button } from "./../components";
+import courseImg from "./../../../img/courseImg.png";
 import { useState } from "react";
 
 const CoursesCard = ({ course, handleAddToCart }) => {
@@ -34,12 +33,9 @@ const CoursesCard = ({ course, handleAddToCart }) => {
           </span>
         </div>
         <div className="w-full flex">
-          <Button
-            buttonText={"Explore"}
-            classText={
-              "w-1/2 text-black hover:bg-gray-100 focus:ring-4 focus:ring-violet-300 font-medium rounded-bl-lg text-base px-6 py-2.5 focus:outline-none"
-            }
-          />
+          <button className="w-1/2 text-black hover:bg-gray-100 focus:ring-4 focus:ring-violet-300 font-medium rounded-bl-lg text-base px-6 py-2.5 focus:outline-none">
+            Explore
+          </button>
           <button
             className="w-1/2 text-white bg-violet-500 hover:bg-violet-700 font-medium rounded-br-lg text-base px-2 py-2.5"
             onClick={() => handleBtnAction()}

@@ -1,4 +1,4 @@
-import Img from "./../img/CartCardImg.png";
+import Img from "./../../../img/CartCardImg.png";
 import { IoCloseSharp } from "react-icons/io5";
 
 const CartCard = ({ course, handleCurrentCourseDeletion }) => {
@@ -12,7 +12,10 @@ const CartCard = ({ course, handleCurrentCourseDeletion }) => {
             By {course.instructor && course.instructor.instructorName}
           </p>
           <p className="text-sm md:block hidden">Rating</p>
-          <p className="text-base md:font-semibold font-medium"><span className="md:inline-block hidden">Price:</span> ₹{course.price} </p>
+          <p className="text-base md:font-semibold font-medium">
+            <span className="md:inline-block hidden">Price:</span> ₹
+            {course.price}{" "}
+          </p>
         </div>
       </div>
       <span className="w-1/5 text-center self-center">{course.discount}%</span>

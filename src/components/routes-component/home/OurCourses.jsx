@@ -1,8 +1,8 @@
 import axios from "axios";
-import { CoursesCard, Loader } from ".";
+import { CoursesCard, Loader } from "../..";
 import { useEffect, useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import baseURL from "../config/config";
+import { useAuth } from "../../../hooks/useAuth";
+import baseURL from "../../../config/config";
 import { useNavigate } from "react-router-dom";
 
 const OurCourses = () => {
@@ -58,7 +58,7 @@ const OurCourses = () => {
         Our Courses
       </h2>
       <div className="w-full border-2 my-2"></div>
-      <div className="w-full flex flex-row justify-evenly items-center flex-wrap gap-10 p-2">
+      <div className="w-full flex flex-row justify-center items-center flex-wrap gap-10 p-2">
         {/* <CoursesCard /> */}
         {getAllCourse}
       </div>

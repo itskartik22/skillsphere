@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { CartCard, Loader } from "./../components";
-import Button from "./Button";
+import { CartCard, Loader } from "../..";
 import axios from "axios";
-import { useAuth } from "../hooks/useAuth";
-import baseURL from "../config/config";
+import { useAuth } from "../../../hooks/useAuth";
+import baseURL from "../../../config/config";
 
 const CourseCart = () => {
   const { user } = useAuth();
@@ -162,12 +161,9 @@ const CourseCart = () => {
               placeholder="Apply Promo Code"
               className="w-full border-2 px-2"
             />
-            <Button
-              buttonText={"Apply"}
-              classText={
-                "text-white bg-gray-950 hover:bg-gray-900  font-medium text-base px-5 py-1.5 focus:outline-none"
-              }
-            />
+            <button className="text-white bg-gray-950 hover:bg-gray-900  font-medium text-base px-5 py-1.5 focus:outline-none">
+              Apply
+            </button>
           </div>
         </div>
         <div
