@@ -4,10 +4,12 @@ import { RxCross2 } from "react-icons/rx";
 import profileImg from "./../../img/profileImg.jpg";
 import baseURL from "../../config/config";
 import { useAuth } from "../../hooks/useAuth";
+import LineSkeleton from "../animation/skeletons/LineSkeleton";
 const Profile = () => {
   const { user } = useAuth();
   const token = user.token;
   const [popEditWindow, setPopEditWindow] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({
     email: "",
     username: "",
@@ -42,13 +44,14 @@ const Profile = () => {
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
-        console.log(res.data);
+        setLoading(false);
         setUserInfo(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        setLoading(false);
+        alert(err);
       });
-  }, [setUserInfo, token]);
+  }, [setUserInfo, token, formData]);
   const handleFormData = (e) => {
     setFormData((state) => ({
       ...state,
@@ -68,7 +71,6 @@ const Profile = () => {
     })
       .then((res) => {
         console.log(res);
-
         alert("Profile Updated");
       })
       .catch((err) => {
@@ -87,6 +89,7 @@ const Profile = () => {
       dateOfBirth: "",
     });
   }
+  console.log(userInfo);
   return (
     <div
       className={`${
@@ -272,51 +275,97 @@ const Profile = () => {
           <div className="w-full flex flex-row items-center md:gap-5 gap-6 p-2">
             <h2 className="w-3/12 text-base font-medium">Name</h2>
             <h2 className="w-9/12 text-base font-medium">
-              {userInfo
-                ? userInfo.profile.firstName + " " + userInfo.profile.lastName
-                : "NA"}
+              {loading ? (
+                <LineSkeleton />
+              ) : userInfo && userInfo.profile.firstName ? (
+                userInfo.profile.firstName + " " + userInfo.profile.lastName
+              ) : (
+                "NA"
+              )}
             </h2>
           </div>
           <div className="w-full flex flex-row items-center md:gap-5 gap-6 p-2">
             <h2 className="w-3/12 text-base font-medium">Email</h2>
             <h2 className="w-9/12 text-base font-medium">
-              {userInfo ? userInfo.email : "NA"}
+              {loading ? (
+                <LineSkeleton />
+              ) : userInfo && userInfo.email ? (
+                userInfo.email
+              ) : (
+                "NA"
+              )}
             </h2>
           </div>
           <div className="w-full flex flex-row items-center md:gap-5 gap-6 p-2">
             <h2 className="w-3/12 text-base font-medium">Username</h2>
             <h2 className="w-9/12 text-base font-medium">
-              {userInfo ? userInfo.username : "NA"}
+              {loading ? (
+                <LineSkeleton />
+              ) : userInfo && userInfo.username ? (
+                userInfo.username
+              ) : (
+                "NA"
+              )}
             </h2>
           </div>
           <div className="w-full flex flex-row items-center md:gap-5 gap-6 p-2">
             <h2 className="w-3/12 text-base font-medium">Date of Birth</h2>
             <h2 className="w-9/12 text-base font-medium">
-              {userInfo ? userInfo.profile.dateOfBirth.split("T")[0] : "NA"}
+              {loading ? (
+                <LineSkeleton />
+              ) : userInfo && userInfo.profile.dateOfBirth ? (
+                userInfo.profile.dateOfBirth.split("T")[0]
+              ) : (
+                "NA"
+              )}
             </h2>
           </div>
           <div className="w-full flex flex-row items-center md:gap-5 gap-6 p-2">
             <h2 className="w-3/12 text-base font-medium">Gender</h2>
             <h2 className="w-9/12 text-base font-medium">
-              {userInfo ? userInfo.profile.gender : "NA"}
+              {loading ? (
+                <LineSkeleton />
+              ) : userInfo && userInfo.profile.gender ? (
+                userInfo.profile.gender
+              ) : (
+                "NA"
+              )}
             </h2>
           </div>
           <div className="w-full flex flex-row items-center md:gap-5 gap-6 p-2">
             <h2 className="w-3/12 text-base font-medium">Mobile</h2>
             <h2 className="w-9/12 text-base font-medium">
-              {userInfo ? userInfo.profile.contact : "NA"}
+              {loading ? (
+                <LineSkeleton />
+              ) : userInfo && userInfo.profile.contact ? (
+                userInfo.profile.contact
+              ) : (
+                "NA"
+              )}
             </h2>
           </div>
           <div className="w-full flex flex-row items-start md:gap-5 gap-6 p-2">
             <h2 className="w-3/12 text-base font-medium">Country</h2>
             <h2 className="w-9/12 text-base font-medium">
-              {userInfo ? userInfo.profile.country : "NA"}
+              {loading ? (
+                <LineSkeleton />
+              ) : userInfo && userInfo.profile.country ? (
+                userInfo.profile.country
+              ) : (
+                "NA"
+              )}
             </h2>
           </div>
           <div className="w-full flex flex-row items-start md:gap-5 gap-6 p-2">
             <h2 className="w-3/12 text-base font-medium">Address</h2>
             <h2 className="w-9/12 text-base font-medium">
-              {userInfo ? userInfo.profile.address : "NA"}
+              {loading ? (
+                <LineSkeleton />
+              ) : userInfo && userInfo.profile.address ? (
+                userInfo.profile.address
+              ) : (
+                "NA"
+              )}
             </h2>
           </div>
           <div className="w-full flex flex-row items-center md:gap-5 gap-6 p-2">
@@ -328,13 +377,25 @@ const Profile = () => {
           <div className="w-full flex flex-row items-start md:gap-5 gap-6 p-2">
             <h2 className="w-3/12 text-base font-medium">Course</h2>
             <h2 className="w-9/12 text-base font-medium">
-              {userInfo ? userInfo.profile.coursePersuing : "NA"}
+              {loading ? (
+                <LineSkeleton />
+              ) : userInfo && userInfo.profile.coursePersuing ? (
+                userInfo.profile.coursePersuing
+              ) : (
+                "NA"
+              )}
             </h2>
           </div>
           <div className="w-full flex flex-row items-start md:gap-5 gap-6 p-2">
             <h2 className="w-3/12 text-base font-medium">College</h2>
             <h2 className="w-9/12 text-base font-medium">
-              {userInfo ? userInfo.profile.college : "NA"}
+              {loading ? (
+                <LineSkeleton />
+              ) : userInfo && userInfo.profile.college ? (
+                userInfo.profile.college
+              ) : (
+                "NA"
+              )}
             </h2>
           </div>
           <div className="flex md:justify-start gap-6 px-2 py-4">
