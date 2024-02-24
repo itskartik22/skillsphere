@@ -3,6 +3,7 @@ import { CartCard, Loader } from "../..";
 import axios from "axios";
 import { useAuth } from "../../../hooks/useAuth";
 import baseURL from "../../../config/config";
+import CartCardSkeleton from "../../animation/skeletons/CartCardSkeleton";
 
 const CourseCart = () => {
   const { user } = useAuth();
@@ -11,8 +12,8 @@ const CourseCart = () => {
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [itemCount, setItemCount] = useState(0);
   const [courses, setCourses] = useState([]);
-  const [isFetching, setIsFetching] = useState(true);
-  const [isPaymentProcessing, setIsPaymentProcessing] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   useEffect(() => {
     //Fetching Cart Courses
     axios({
@@ -21,12 +22,11 @@ const CourseCart = () => {
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
+        setLoading(false);
         setCourses(res.data.data.cartCourses);
-        setIsFetching(false);
       })
       .catch((err) => {
         alert(err.message);
-        setIsFetching(false);
       });
     //Calling Cost Variable Calculation Function
     function costVariable() {
@@ -91,7 +91,6 @@ const CourseCart = () => {
       });
   };
   //Cost Variable Calculating Function
-  if (isFetching) return <Loader />;
   if (isPaymentProcessing) return <Loader />;
   return (
     <div
@@ -124,13 +123,21 @@ const CourseCart = () => {
           }}
         ></div>
         <div className="w-full flex flex-col gap-1">
-          {courses?.map((course) => (
-            <CartCard
-              key={course._id}
-              course={course}
-              handleCurrentCourseDeletion={handleCourseDeletionById}
-            />
-          ))}
+          {loading ? (
+            <>
+              <CartCardSkeleton />
+              <CartCardSkeleton />
+              <CartCardSkeleton />
+            </>
+          ) : (
+            courses?.map((course) => (
+              <CartCard
+                key={course._id}
+                course={course}
+                handleCurrentCourseDeletion={handleCourseDeletionById}
+              />
+            ))
+          )}
         </div>
       </div>
       <div className="md:w-1/3 flex flex-col items-start gap-2 border-l-2 shadow-slate-500 py-4 px-6">

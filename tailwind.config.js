@@ -3,7 +3,13 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      animation: {
+        skeleton: "skeleton 1s ease infinite alternate",
+      },
       colors: {
+        "skeleton-dark": "#c8c7c7",
+        skeleton: "#d3d2d2",
+        "skeleton-lite": "#e2e1e1",
         primary: {
           50: "#eff6ff",
           100: "#dbeafe",

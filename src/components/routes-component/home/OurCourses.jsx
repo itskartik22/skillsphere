@@ -1,14 +1,15 @@
 import axios from "axios";
-import { CoursesCard, Loader } from "../..";
+import { CoursesCard} from "../..";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import baseURL from "../../../config/config";
 import { useNavigate } from "react-router-dom";
+import CourseCardSkeleton from "../../animation/skeletons/CourseCardSkeleton";
 
 const OurCourses = () => {
   const { user } = useAuth();
   const [courses, setCourses] = useState([]);
-  const [isFetching, setIsFetching] = useState(true);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   // Course Added to Cart
   const handleAddToCart = (courseId) => {
@@ -24,7 +25,6 @@ const OurCourses = () => {
     })
       .then((res) => {})
       .catch((err) => {
-        console.log(err);
         alert(err.response.data.message);
       });
   };
@@ -36,11 +36,10 @@ const OurCourses = () => {
     })
       .then((res) => {
         setCourses(res.data.courses);
-        setIsFetching(false);
+        setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
-        setIsFetching(false);
+        setLoading(false);
       });
   }, [courses.length]);
   const getAllCourse = courses?.map((course) => (
@@ -50,8 +49,6 @@ const OurCourses = () => {
       handleAddToCart={handleAddToCart}
     />
   ));
-  if (isFetching) return <Loader />;
-
   return (
     <div className="w-full flex justify-center flex-col">
       <h2 className="md:text-4xl sm:text-3xl text-2xl md:font-semibold font-medium">
@@ -59,8 +56,18 @@ const OurCourses = () => {
       </h2>
       <div className="w-full border-2 my-2"></div>
       <div className="w-full flex flex-row justify-center items-center flex-wrap gap-10 p-2">
-        {/* <CoursesCard /> */}
-        {getAllCourse}
+        {loading ? (
+          <>
+            <CourseCardSkeleton />
+            <CourseCardSkeleton />
+            <CourseCardSkeleton />
+            <CourseCardSkeleton />
+            <CourseCardSkeleton />
+            <CourseCardSkeleton />
+          </>
+        ) : (
+          getAllCourse
+        )}
       </div>
     </div>
   );
