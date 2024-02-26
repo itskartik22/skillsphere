@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import profileImg from "./../../img/profileImg.jpg";
 import baseURL from "../../config/config";
 import { useAuth } from "../../hooks/useAuth";
 import LineSkeleton from "../animation/skeletons/LineSkeleton";
+import { AlertDispatchContext } from "../../context/Context";
 const Profile = () => {
   const { user } = useAuth();
+  const dispatchAlertHandler = useContext(AlertDispatchContext);
   const token = user.token;
   const [popEditWindow, setPopEditWindow] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -70,12 +72,16 @@ const Profile = () => {
       data: formData,
     })
       .then((res) => {
-        console.log(res);
-        alert("Profile Updated");
+        dispatchAlertHandler({
+          type: "success",
+          message: "Profile updated sucessfully.",
+        });
       })
       .catch((err) => {
-        console.log(err);
-        alert(err.response.data.message);
+        dispatchAlertHandler({
+          type: "error",
+          message: err.response.data.message,
+        });
       });
     setFormData({
       firstName: "",
@@ -89,7 +95,6 @@ const Profile = () => {
       dateOfBirth: "",
     });
   }
-  console.log(userInfo);
   return (
     <div
       className={`${

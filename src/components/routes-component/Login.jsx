@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { AlertContext, AlertDispatchContext } from "../../context/Context";
 
 const Login = () => {
+  const alert = useContext(AlertContext);
+  const dispatchAlertHandler = useContext(AlertDispatchContext);
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const { user, login } = useAuth();
@@ -10,22 +13,53 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      alert("loggedIn");
-      navigate("/");
+      dispatchAlertHandler({
+        type: "success",
+        message: "You are logged in!",
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     }
-  }, [user, navigate]);
+    if (alert.status) {
+      setTimeout(
+        () =>
+          dispatchAlertHandler({
+            type: "remove",
+          }),
+        3000
+      );
+    }
+  }, [user, alert, navigate]);
 
   const userLogin = async () => {
     if (userEmail !== "" && userPassword !== "") {
       await login({ userEmail, userPassword });
     } else {
-      alert(`Empty Field!`);
+      // setAlert({
+      //   status: true,
+      //   message: "Input field empty!",
+      //   type: "error",
+      // });
+      dispatchAlertHandler({
+        type: "error",
+        message: "Input field empty!",
+      });
     }
     setUserEmail("");
     setUserPassword("");
   };
   return (
     <section className="w-full min-h-screen bg-gray-50 px-6 py-8 dark:bg-gray-900">
+      {/* {alert.status ? (
+        <Alert
+          status={alert.status}
+          type={alert.type}
+          message={alert.message}
+        />
+      ) : (
+        ""
+      )} */}
       <div className="flex flex-col items-center">
         <Link
           to={"/"}

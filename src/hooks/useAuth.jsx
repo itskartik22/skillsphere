@@ -3,10 +3,12 @@ import { useLocalStorage } from "./useLocalStorage.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import baseURL from "../config/config.js";
+import { AlertDispatchContext } from "../context/Context.js";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useLocalStorage("user", null);
+  const dispatchAlertHandler = useContext(AlertDispatchContext);
   const navigate = useNavigate();
 
   //Authetication Function
@@ -17,13 +19,20 @@ export const AuthProvider = ({ children }) => {
         password: userPassword,
       })
       .then((res) => {
-        console.log(res.data);
         setUser(res.data);
-        navigate("/", { replace: true });
+        dispatchAlertHandler({
+          type: "success",
+          message: "You are logged in.",
+        });
+        navigate("/");
       })
       .catch((err) => {
-        console.error(err);
-        alert(err.response.data.message);
+        // console.error(err);
+        // alert(err.response.data.message);
+        dispatchAlertHandler({
+          type: "error",
+          message: err.response.data.message,
+        });
       });
   };
   const signup = async ({ userName, userEmail, userPassword }) => {
@@ -34,18 +43,26 @@ export const AuthProvider = ({ children }) => {
         password: userPassword,
       })
       .then((res) => {
-        console.log(res.data);
         setUser(res.data);
+        dispatchAlertHandler({
+          type: "success",
+          message: "You are logged in.",
+        });
         navigate("/");
-        console.log(res.data.token);
       })
       .catch((err) => {
-        console.error(err);
-        alert(err.response.data.message);
+        dispatchAlertHandler({
+          type: "error",
+          message: err.response.data.message,
+        });
       });
   };
   const logout = () => {
     setUser(null);
+    dispatchAlertHandler({
+      type: "success",
+      message: "You are logged out.",
+    });
     navigate("/");
   };
 

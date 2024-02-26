@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartCard, Loader } from "../..";
 import axios from "axios";
 import { useAuth } from "../../../hooks/useAuth";
 import baseURL from "../../../config/config";
 import CartCardSkeleton from "../../animation/skeletons/CartCardSkeleton";
+import { AlertDispatchContext } from "../../../context/Context";
 
 const CourseCart = () => {
   const { user } = useAuth();
+  const dispatchAlertHandler = useContext(AlertDispatchContext)
   const token = user.token;
   const [totalCost, setTotalCost] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
@@ -52,7 +54,10 @@ const CourseCart = () => {
   //Setting isPaymentProcessing True
   const handlePaymentProcessing = () => {
     if (courses.length === 0) {
-      alert("No Course in Cart!");
+      dispatchAlertHandler({
+        type: "error",
+        message: "No course in cart!"
+      })
       return;
     }
     const cartCourseIds = courses.map((course) => course._id);
@@ -65,10 +70,16 @@ const CourseCart = () => {
       },
     })
       .then((res) => {
-        alert(res.data.message);
+        dispatchAlertHandler({
+          type: "success",
+          message: res.data.message
+        })
       })
       .catch((err) => {
-        alert(err.response.data.data.message);
+        dispatchAlertHandler({
+          type: "success",
+          message: err.response.data.data.message
+        })
       });
     setIsPaymentProcessing(true);
   };
