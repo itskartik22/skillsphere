@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
-import profileImg from "./../../img/profileImg.jpg";
+import { FaCamera } from "react-icons/fa";
 import baseURL from "../../config/config";
 import { useAuth } from "../../hooks/useAuth";
 import LineSkeleton from "../animation/skeletons/LineSkeleton";
@@ -15,6 +15,7 @@ const Profile = () => {
   const [userInfo, setUserInfo] = useState({
     email: "",
     username: "",
+    profilePhoto: "",
     profile: {
       firstName: "",
       lastName: "",
@@ -27,6 +28,7 @@ const Profile = () => {
       dateOfBirth: "",
     },
   });
+  const [infoEdit, setInfoEdit] = useState(true);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -38,6 +40,8 @@ const Profile = () => {
     college: "",
     dateOfBirth: "",
   });
+  //Storing photo changes
+  const [profilePhoto, setProfilePhoto] = useState(null);
   useEffect(() => {
     //Fetching userInformation
     axios({
@@ -80,7 +84,7 @@ const Profile = () => {
       .catch((err) => {
         dispatchAlertHandler({
           type: "error",
-          message: err.response.data.message,
+          message: "Failed to upload photo!.",
         });
       });
     setFormData({
@@ -94,6 +98,30 @@ const Profile = () => {
       college: "",
       dateOfBirth: "",
     });
+  }
+  function handleProfilePhotoChange(event) {
+    event.preventDefault();
+    const ImgData = new FormData();
+    ImgData.append("image", profilePhoto);
+    axios({
+      method: "post",
+      url: `${baseURL}/api/v1/users/upload`,
+      headers: { Authorization: "Bearer " + token },
+      data: ImgData,
+    })
+      .then((res) => {
+        dispatchAlertHandler({
+          type: "success",
+          message: "Profile photo uploaded seccessful.",
+        });
+      })
+      .catch((err) => {
+        dispatchAlertHandler({
+          type: "error",
+          message: "Upload failed!.",
+        });
+      });
+    setProfilePhoto(null);
   }
   return (
     <div
@@ -115,159 +143,197 @@ const Profile = () => {
             />
           </button>
           <h3 className="text-lg font-semibold">Edit Details</h3>
-          <form className="flex flex-col gap-3" onSubmit={handleFormSubmition}>
-            <div className="flex items-center justify-between md:gap-20 gap-5">
-              <label className="w-3/12 font-medium" htmlFor="firstName">
-                First Name
-              </label>
-              <input
-                className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
-                type="text"
-                name="firstName"
-                placeholder="Anaya"
-                value={formData.firstName}
-                onChange={handleFormData}
-                required
-              />
-            </div>
-            <div className="flex items-center justify-between md:gap-20 gap-5">
-              <label className="w-3/12 font-medium" htmlFor="lastName">
-                Last Name
-              </label>
-              <input
-                className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
-                type="text"
-                name="lastName"
-                placeholder="Shree"
-                value={formData.lastName}
-                onChange={handleFormData}
-                required
-              />
-            </div>
-            <div className="flex items-center justify-between md:gap-20 gap-5">
-              <label className="w-3/12 font-medium" htmlFor="dateOfBirth">
-                Date of Birth
-              </label>
-              <input
-                className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
-                type="date"
-                name="dateOfBirth"
-                placeholder=""
-                value={formData.dateOfBirth}
-                onChange={handleFormData}
-                required
-              />
-            </div>
-            <div className="flex items-center justify-between md:gap-20 gap-5">
-              <label className="w-3/12 font-medium" htmlFor="gender">
-                Gender
-              </label>
-              <select
-                className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
-                name="gender"
-                value={formData.gender}
-                onChange={handleFormData}
-                required
-              >
-                <option value="">Select</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div className="flex items-center justify-between md:gap-20 gap-5">
-              <label className="w-3/12 font-medium" htmlFor="country">
-                Country
-              </label>
-              <select
-                className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
-                name="country"
-                value={formData.country}
-                onChange={handleFormData}
-                required
-              >
-                <option value="">Select</option>
-                <option value="India(+91)">India(+91)</option>
-                <option value="Nepal(+977)">Nepal(+977)</option>
-                <option value="Pakistan(+92)">Pakistan(+92)</option>
-                <option value="Bangladesh(+880)">Bangladesh(+880)</option>
-                <option value="Srilanka(+94)">Srilanka(+94)</option>
-              </select>
-            </div>
-            <div className="flex items-center justify-between md:gap-20 gap-5">
-              <label className="w-3/12 font-medium" htmlFor="contact">
-                Mobile
-              </label>
-              <input
-                className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
-                type="text"
-                name="contact"
-                placeholder="9608XXXXXX"
-                value={formData.contact}
-                onChange={handleFormData}
-                required
-              />
-            </div>
-            <div className="flex items-center justify-between md:gap-20 gap-5">
-              <label className="w-3/12 font-medium" htmlFor="address">
-                Address
-              </label>
-              <input
-                className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
-                type="text"
-                name="address"
-                placeholder="No-12/45 Loyal Street, Kolkata "
-                value={formData.address}
-                onChange={handleFormData}
-                required
-              />
-            </div>
-            <div className="flex items-center justify-between md:gap-20 gap-5">
-              <label className="w-3/12 font-medium" htmlFor="coursePersuing">
-                Course
-              </label>
-              <input
-                className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
-                type="text"
-                name="coursePersuing"
-                placeholder="B.Tech or B.Sc"
-                value={formData.coursePersuing}
-                onChange={handleFormData}
-                required
-              />
-            </div>
-            <div className="flex items-center justify-between md:gap-20 gap-5">
-              <label className="w-3/12 font-medium" htmlFor="college">
-                College
-              </label>
-              <input
-                className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
-                type="text"
-                name="college"
-                placeholder="Satyayug Nalanda University"
-                value={formData.college}
-                onChange={handleFormData}
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="md:w-1/3 self-end text-white bg-violet-500 px-4 py-2 mt-2 rounded-md"
+          {infoEdit ? (
+            <form
+              className="flex flex-col gap-3"
+              onSubmit={handleFormSubmition}
             >
-              Save Changes
-            </button>
-          </form>
+              <div className="flex items-center justify-between md:gap-20 gap-5">
+                <label className="w-3/12 font-medium" htmlFor="firstName">
+                  First Name
+                </label>
+                <input
+                  className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
+                  type="text"
+                  name="firstName"
+                  placeholder="Anaya"
+                  value={formData.firstName}
+                  onChange={handleFormData}
+                  required
+                />
+              </div>
+              <div className="flex items-center justify-between md:gap-20 gap-5">
+                <label className="w-3/12 font-medium" htmlFor="lastName">
+                  Last Name
+                </label>
+                <input
+                  className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
+                  type="text"
+                  name="lastName"
+                  placeholder="Shree"
+                  value={formData.lastName}
+                  onChange={handleFormData}
+                  required
+                />
+              </div>
+              <div className="flex items-center justify-between md:gap-20 gap-5">
+                <label className="w-3/12 font-medium" htmlFor="dateOfBirth">
+                  Date of Birth
+                </label>
+                <input
+                  className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
+                  type="date"
+                  name="dateOfBirth"
+                  placeholder=""
+                  value={formData.dateOfBirth}
+                  onChange={handleFormData}
+                  required
+                />
+              </div>
+              <div className="flex items-center justify-between md:gap-20 gap-5">
+                <label className="w-3/12 font-medium" htmlFor="gender">
+                  Gender
+                </label>
+                <select
+                  className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleFormData}
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div className="flex items-center justify-between md:gap-20 gap-5">
+                <label className="w-3/12 font-medium" htmlFor="country">
+                  Country
+                </label>
+                <select
+                  className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleFormData}
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="India(+91)">India(+91)</option>
+                  <option value="Nepal(+977)">Nepal(+977)</option>
+                  <option value="Pakistan(+92)">Pakistan(+92)</option>
+                  <option value="Bangladesh(+880)">Bangladesh(+880)</option>
+                  <option value="Srilanka(+94)">Srilanka(+94)</option>
+                </select>
+              </div>
+              <div className="flex items-center justify-between md:gap-20 gap-5">
+                <label className="w-3/12 font-medium" htmlFor="contact">
+                  Mobile
+                </label>
+                <input
+                  className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
+                  type="text"
+                  name="contact"
+                  placeholder="9608XXXXXX"
+                  value={formData.contact}
+                  onChange={handleFormData}
+                  required
+                />
+              </div>
+              <div className="flex items-center justify-between md:gap-20 gap-5">
+                <label className="w-3/12 font-medium" htmlFor="address">
+                  Address
+                </label>
+                <input
+                  className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
+                  type="text"
+                  name="address"
+                  placeholder="No-12/45 Loyal Street, Kolkata "
+                  value={formData.address}
+                  onChange={handleFormData}
+                  required
+                />
+              </div>
+              <div className="flex items-center justify-between md:gap-20 gap-5">
+                <label className="w-3/12 font-medium" htmlFor="coursePersuing">
+                  Course
+                </label>
+                <input
+                  className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
+                  type="text"
+                  name="coursePersuing"
+                  placeholder="B.Tech or B.Sc"
+                  value={formData.coursePersuing}
+                  onChange={handleFormData}
+                  required
+                />
+              </div>
+              <div className="flex items-center justify-between md:gap-20 gap-5">
+                <label className="w-3/12 font-medium" htmlFor="college">
+                  College
+                </label>
+                <input
+                  className="w-8/12 border-2 border-gray-500 px-2 py-1 rounded-md"
+                  type="text"
+                  name="college"
+                  placeholder="Satyayug Nalanda University"
+                  value={formData.college}
+                  onChange={handleFormData}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="md:w-1/3 self-end text-white bg-violet-500 px-4 py-2 mt-2 rounded-md"
+              >
+                Save Changes
+              </button>
+            </form>
+          ) : (
+            <form
+              className="flex flex-col justify-start gap-5"
+              onSubmit={handleProfilePhotoChange}
+            >
+              <div className="flex gap-5">
+                <label htmlFor="">Select Photo:</label>
+                <input
+                  className="cursor-pointer"
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => {
+                    setProfilePhoto(event.target.files[0]);
+                  }}
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-fit text-white bg-violet-500 px-6 py-2 rounded-md"
+              >
+                Change Photo
+              </button>
+            </form>
+          )}
         </div>
       </div>
 
       {/* Profile View */}
-      <div className="w-full flex md:flex-row flex-col gap-10">
-        <div className="md:w-52 w-full flex md:justify-end justify-center">
-          <img
-            src={profileImg}
+      <div className="w-full flex md:flex-row md:items-start items-center flex-col gap-10">
+        <div className="relative md:w-52 w-fit flex h-fit md:justify-end justify-center">
+        <img
+            src={userInfo.profilePhoto}
             alt="profileImg"
             className="w-40 max-h-40 rounded-full"
           />
+
+          <button
+            className="absolute bottom-0 right-0 text-white bg-violet-500 px-2 py-2 border-white border-4 rounded-full"
+            onClick={() => {
+              handleEditProfile();
+              setInfoEdit(false);
+            }}
+          >
+            <FaCamera className="text-2xl" />
+          </button>
         </div>
         <div className="w-full flex flex-col">
           <h2 className="text-2xl font-medium">Profile Details</h2>
@@ -406,7 +472,10 @@ const Profile = () => {
           <div className="flex md:justify-start gap-6 px-2 py-4">
             <button
               className="text-white bg-violet-500 px-4 py-2 rounded-md"
-              onClick={() => handleEditProfile()}
+              onClick={() => {
+                setInfoEdit(true);
+                handleEditProfile();
+              }}
             >
               Edit Profile
             </button>
