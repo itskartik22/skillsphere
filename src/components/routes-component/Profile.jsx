@@ -322,7 +322,7 @@ const Profile = () => {
         <img
             src={userInfo.profilePhoto}
             alt="profileImg"
-            className="w-40 max-h-40 rounded-full"
+            className="w-40 h-40 max-h-40 rounded-full"
           />
 
           <button
