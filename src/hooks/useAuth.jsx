@@ -12,36 +12,19 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   //Authetication Function
+  //  Login Function
   const login = async ({ userEmail, userPassword }) => {
     await axios
-      .post(`${baseURL}/api/v1/users/login`, {
-        email: userEmail,
-        password: userPassword,
-      })
-      .then((res) => {
-        setUser(res.data);
-        dispatchAlertHandler({
-          type: "success",
-          message: "You are logged in.",
-        });
-        navigate("/");
-      })
-      .catch((err) => {
-        // console.error(err);
-        // alert(err.response.data.message);
-        dispatchAlertHandler({
-          type: "error",
-          message: err.response.data.message,
-        });
-      });
-  };
-  const signup = async ({ userName, userEmail, userPassword }) => {
-    await axios
-      .post(`${baseURL}/api/v1/users/signup`, {
-        username: userName,
-        email: userEmail,
-        password: userPassword,
-      })
+      .post(
+        `${baseURL}/api/v1/users/login`,
+        {
+          email: userEmail,
+          password: userPassword,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         setUser(res.data);
         dispatchAlertHandler({
@@ -53,20 +36,66 @@ export const AuthProvider = ({ children }) => {
       .catch((err) => {
         dispatchAlertHandler({
           type: "error",
-          message: err.response.data.message,
+          message: "Invalid email or password.",
         });
       });
-  };
-  const logout = () => {
-    setUser(null);
-    dispatchAlertHandler({
-      type: "success",
-      message: "You are logged out.",
-    });
-    navigate("/");
   };
 
-  const value = useMemo(() => ({ user, login, signup, logout }), [user]);
+  //Signup Function
+  const signup = async ({ userName, userEmail, userPassword }) => {
+    await axios
+      .post(
+        `${baseURL}/api/v1/users/signup`,
+        {
+          username: userName,
+          email: userEmail,
+          password: userPassword,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        setUser(res.data);
+        dispatchAlertHandler({
+          type: "success",
+          message: "You are logged in.",
+        });
+        navigate("/");
+      })
+      .catch((err) => {
+        dispatchAlertHandler({
+          type: "error",
+          message: err.response.data.message,
+        });
+      });
+  };
+  const logout = async () => {
+    await axios
+      .post(`${baseURL}/api/v1/users/logout`, {}, { withCredentials: true })
+      .then((res) => {
+        dispatchAlertHandler({
+          type: "success",
+          message: "succefully logout.",
+        });
+        navigate("/");
+      })
+      .catch((err) => {
+        dispatchAlertHandler({
+          type: "error",
+          message: "failed to logout.",
+        });
+      });
+    setUser(null);
+    navigate("/");
+  };
+  const sessionExpiredLogout = () => {
+    setUser(null);
+    navigate("/login");
+  };
+
+  const value = useMemo(
+    () => ({ user, login, signup, logout, sessionExpiredLogout }),
+    [user]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

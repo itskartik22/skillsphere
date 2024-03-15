@@ -1,13 +1,15 @@
 import axios from "axios";
-import { CoursesCard} from "../..";
-import { useEffect, useState } from "react";
+import { CoursesCard } from "../..";
+import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import baseURL from "../../../config/config";
 import { useNavigate } from "react-router-dom";
 import CourseCardSkeleton from "../../animation/skeletons/CourseCardSkeleton";
+import { AlertDispatchContext } from "../../../context/Context";
 
 const OurCourses = () => {
   const { user } = useAuth();
+  const disatchAlertHandler = useContext(AlertDispatchContext);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -22,10 +24,14 @@ const OurCourses = () => {
       method: "patch",
       url: `${baseURL}/api/v1/users/cart-course/${courseId}`,
       headers: { Authorization: "Bearer " + token },
+      withCredentials: true,
     })
       .then((res) => {})
       .catch((err) => {
-        alert(err.response.data.message);
+        disatchAlertHandler({
+          type: "error",
+          message: err.response.data.message,
+        });
       });
   };
   useEffect(() => {

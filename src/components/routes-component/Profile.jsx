@@ -7,7 +7,7 @@ import { useAuth } from "../../hooks/useAuth";
 import LineSkeleton from "../animation/skeletons/LineSkeleton";
 import { AlertDispatchContext } from "../../context/Context";
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, sessionExpiredLogout } = useAuth();
   const dispatchAlertHandler = useContext(AlertDispatchContext);
   const token = user.token;
   const [popEditWindow, setPopEditWindow] = useState(false);
@@ -48,6 +48,7 @@ const Profile = () => {
       method: "get",
       url: `${baseURL}/api/v1/users/user-profile`,
       headers: { Authorization: "Bearer " + token },
+      withCredentials: true,
     })
       .then((res) => {
         setLoading(false);
@@ -55,7 +56,19 @@ const Profile = () => {
       })
       .catch((err) => {
         setLoading(false);
-        alert(err);
+        if(err.response.request.status === 401){
+          dispatchAlertHandler({
+            type: "error",
+            message : "Session Expired"
+          });
+          sessionExpiredLogout();
+        }
+        else{
+          dispatchAlertHandler({
+            type: "error",
+            message : "Something went wrong"
+          });
+        }
       });
   }, [setUserInfo, token, formData]);
   const handleFormData = (e) => {
@@ -74,6 +87,7 @@ const Profile = () => {
       url: `${baseURL}/api/v1/users/user-profile`,
       headers: { Authorization: "Bearer " + token },
       data: formData,
+      withCredentials: true,
     })
       .then((res) => {
         dispatchAlertHandler({
@@ -108,6 +122,7 @@ const Profile = () => {
       url: `${baseURL}/api/v1/users/upload`,
       headers: { Authorization: "Bearer " + token },
       data: ImgData,
+      withCredentials: true,
     })
       .then((res) => {
         dispatchAlertHandler({
@@ -319,10 +334,10 @@ const Profile = () => {
       {/* Profile View */}
       <div className="w-full flex md:flex-row md:items-start items-center flex-col gap-10">
         <div className="relative md:w-52 w-fit flex h-fit md:justify-end justify-center">
-        <img
+          <img
             src={userInfo.profilePhoto}
             alt="profileImg"
-            className="w-40 h-40 max-h-40 rounded-full"
+            className="text-center w-40 h-40 max-h-40 rounded-full"
           />
 
           <button

@@ -1,12 +1,14 @@
 import axios from "axios";
 import { EnrolledCourseCard, Loader } from "../..";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import baseURL from "../../../config/config";
 import EnrolledCourseCardSkeleton from "../../animation/skeletons/EnrolledCourseCardSkeleton";
+import { AlertDispatchContext } from "../../../context/Context";
 
 const EnrolledCourses = () => {
-  const { user } = useAuth();
+  const { user, sessionExpiredLogout } = useAuth();
+  const dispatchAlertHandler = useContext(AlertDispatchContext);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = user.token;
@@ -15,16 +17,29 @@ const EnrolledCourses = () => {
       method: "get",
       url: `${baseURL}/api/v1/users/enrolled-courses`,
       headers: { Authorization: "Bearer " + token },
+      withCredentials: true,
     })
       .then((res) => {
         setCourses(res.data.data.coursesEnrolled);
         setLoading(false);
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        if(err.response.request.status === 401){
+          dispatchAlertHandler({
+            type: "error",
+            message : "Session Expired"
+          });
+          sessionExpiredLogout();
+        }
+        else{
+          dispatchAlertHandler({
+            type: "error",
+            message : "Something went wrong"
+          });
+        }
         setLoading(false);
       });
-  }, [courses.length, token]);
+  }, [courses.length, token, sessionExpiredLogout]);
 
   // if (courses && courses.length === 0) {
   //   return (

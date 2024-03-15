@@ -7,9 +7,8 @@ import CartCardSkeleton from "../../animation/skeletons/CartCardSkeleton";
 import { AlertDispatchContext } from "../../../context/Context";
 
 const CourseCart = () => {
-  const { user } = useAuth();
-  const dispatchAlertHandler = useContext(AlertDispatchContext)
-  const token = user.token;
+  const { sessionExpiredLogout } = useAuth();
+  const dispatchAlertHandler = useContext(AlertDispatchContext);
   const [totalCost, setTotalCost] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [itemCount, setItemCount] = useState(0);
@@ -18,17 +17,27 @@ const CourseCart = () => {
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   useEffect(() => {
     //Fetching Cart Courses
-    axios({
-      method: "get",
-      url: `${baseURL}/api/v1/users/cart-courses`,
-      headers: { Authorization: "Bearer " + token },
-    })
+    axios
+      .get(`${baseURL}/api/v1/users/cart-courses`, { withCredentials: true })
       .then((res) => {
         setLoading(false);
         setCourses(res.data.data.cartCourses);
       })
       .catch((err) => {
-        alert(err.message);
+        setLoading(false);
+        // if(err.response.request.status === 401){
+        //   dispatchAlertHandler({
+        //     type: "error",
+        //     message : "Session Expired"
+        //   });
+        //   sessionExpiredLogout();
+        // }
+        // else{
+        //   dispatchAlertHandler({
+        //     type: "error",
+        //     message : "Something went wrong"
+        //   });
+        // }
       });
     //Calling Cost Variable Calculation Function
     function costVariable() {
@@ -50,36 +59,37 @@ const CourseCart = () => {
     setTimeout(() => {
       setIsPaymentProcessing(false);
     }, 3000);
-  }, [courses.length, token, courses]);
+  }, []);
   //Setting isPaymentProcessing True
   const handlePaymentProcessing = () => {
     if (courses.length === 0) {
       dispatchAlertHandler({
         type: "error",
-        message: "No course in cart!"
-      })
+        message: "No course in cart!",
+      });
       return;
     }
     const cartCourseIds = courses.map((course) => course._id);
     axios({
       method: "patch",
       url: `${baseURL}/api/v1/users/enroll-courses`,
-      headers: { Authorization: "Bearer " + token },
+      // headers: { Authorization: "Bearer " + token },
       data: {
         courseIds: cartCourseIds,
       },
+      withCredentials: true,
     })
       .then((res) => {
         dispatchAlertHandler({
           type: "success",
-          message: res.data.message
-        })
+          message: res.data.message,
+        });
       })
       .catch((err) => {
         dispatchAlertHandler({
           type: "success",
-          message: err.response.data.data.message
-        })
+          message: err.response.data.data.message,
+        });
       });
     setIsPaymentProcessing(true);
   };
@@ -88,7 +98,8 @@ const CourseCart = () => {
     axios({
       method: "delete",
       url: `${baseURL}/api/v1/users/cart-course/${courseId}`,
-      headers: { Authorization: "Bearer " + token },
+      // headers: { Authorization: "Bearer " + token },
+      withCredentials: true,
     })
       .then((res) => {
         const remainingCourses = courses.filter(
