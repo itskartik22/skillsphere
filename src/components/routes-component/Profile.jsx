@@ -56,21 +56,20 @@ const Profile = () => {
         setUserInfo(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
-        // if (err.response.request.status === 401) {
-        //   dispatchAlertHandler({
-        //     type: "error",
-        //     message: "Session Expired",
-        //   });
-        //   sessionExpiredLogout();
-        // } else {
-        //   dispatchAlertHandler({
-        //     type: "error",
-        //     message: "Something went wrong",
-        //   });
-        // }
-        alert(err.response.data.message);
+        if (err.response.request.status === 401) {
+          dispatchAlertHandler({
+            type: "error",
+            message: "Session Expired",
+          });
+          sessionExpiredLogout();
+        } else {
+          dispatchAlertHandler({
+            type: "error",
+            message: "Something went wrong",
+          });
+        }
+        // alert(err.response.data.message);
       });
   }, [setUserInfo, token, formData]);
   const handleFormData = (e) => {

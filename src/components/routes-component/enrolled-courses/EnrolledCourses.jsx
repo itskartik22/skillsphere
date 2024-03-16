@@ -25,20 +25,19 @@ const EnrolledCourses = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
-        alert(err.response.data.message)
-        // if (err.response.request.status === 401) {
-        //   dispatchAlertHandler({
-        //     type: "error",
-        //     message: "Session Expired",
-        //   });
-        //   sessionExpiredLogout();
-        // } else {
-        //   dispatchAlertHandler({
-        //     type: "error",
-        //     message: "Something went wrong",
-        //   });
-        // }
+        // alert(err.response.data.message)
+        if (err.response.request.status === 401) {
+          dispatchAlertHandler({
+            type: "error",
+            message: "Session Expired",
+          });
+          sessionExpiredLogout();
+        } else {
+          dispatchAlertHandler({
+            type: "error",
+            message: "Something went wrong",
+          });
+        }
         setLoading(false);
       });
   }, [courses.length, token]);

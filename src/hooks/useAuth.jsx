@@ -52,7 +52,6 @@ export const AuthProvider = ({ children }) => {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res);
         setUser(res.data);
         dispatchAlertHandler({
           type: "success",
@@ -61,7 +60,6 @@ export const AuthProvider = ({ children }) => {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
         dispatchAlertHandler({
           type: "error",
           message: err.response.data.message,
@@ -75,7 +73,6 @@ export const AuthProvider = ({ children }) => {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res);
         dispatchAlertHandler({
           type: "success",
           message: "succefully logout.",
@@ -83,7 +80,6 @@ export const AuthProvider = ({ children }) => {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
         dispatchAlertHandler({
           type: "error",
           message: "failed to logout.",
