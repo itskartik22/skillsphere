@@ -7,7 +7,7 @@ import CartCardSkeleton from "../../animation/skeletons/CartCardSkeleton";
 import { AlertDispatchContext } from "../../../context/Context";
 
 const CourseCart = () => {
-  const { sessionExpiredLogout } = useAuth();
+  const { user, sessionExpiredLogout } = useAuth();
   const dispatchAlertHandler = useContext(AlertDispatchContext);
   const [totalCost, setTotalCost] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
@@ -17,27 +17,33 @@ const CourseCart = () => {
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   useEffect(() => {
     //Fetching Cart Courses
-    axios
-      .get(`${baseURL}/api/v1/users/cart-courses`, { withCredentials: true })
+    const token = user.token;
+    axios({
+      method: "get",
+      url: `${baseURL}/api/v1/users/cart-courses`,
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
+    })
       .then((res) => {
+        console.log(res);
         setLoading(false);
         setCourses(res.data.data.cartCourses);
       })
       .catch((err) => {
+        console.log(err);
         setLoading(false);
-        // if(err.response.request.status === 401){
-        //   dispatchAlertHandler({
-        //     type: "error",
-        //     message : "Session Expired"
-        //   });
-        //   sessionExpiredLogout();
-        // }
-        // else{
-        //   dispatchAlertHandler({
-        //     type: "error",
-        //     message : "Something went wrong"
-        //   });
-        // }
+        if (err.response.request.status === 401) {
+          dispatchAlertHandler({
+            type: "error",
+            message: "Session Expired",
+          });
+          sessionExpiredLogout();
+        } else {
+          dispatchAlertHandler({
+            type: "error",
+            message: "Something went wrong",
+          });
+        }
       });
     //Calling Cost Variable Calculation Function
     function costVariable() {

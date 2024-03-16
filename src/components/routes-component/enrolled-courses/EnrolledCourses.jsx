@@ -16,30 +16,31 @@ const EnrolledCourses = () => {
     axios({
       method: "get",
       url: `${baseURL}/api/v1/users/enrolled-courses`,
-      headers: { Authorization: "Bearer " + token },
+      headers: { Authorization: `Bearer ${token}` },
       withCredentials: true,
     })
       .then((res) => {
+        console.log(res);
         setCourses(res.data.data.coursesEnrolled);
         setLoading(false);
       })
       .catch((err) => {
-        if(err.response.request.status === 401){
+        console.log(err);
+        if (err.response.request.status === 401) {
           dispatchAlertHandler({
             type: "error",
-            message : "Session Expired"
+            message: "Session Expired",
           });
           sessionExpiredLogout();
-        }
-        else{
+        } else {
           dispatchAlertHandler({
             type: "error",
-            message : "Something went wrong"
+            message: "Something went wrong",
           });
         }
         setLoading(false);
       });
-  }, [courses.length, token, sessionExpiredLogout]);
+  }, [courses.length, token]);
 
   // if (courses && courses.length === 0) {
   //   return (

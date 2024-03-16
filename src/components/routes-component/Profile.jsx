@@ -47,26 +47,27 @@ const Profile = () => {
     axios({
       method: "get",
       url: `${baseURL}/api/v1/users/user-profile`,
-      headers: { Authorization: "Bearer " + token },
+      headers: { Authorization: `Bearer ${token}` },
       withCredentials: true,
     })
       .then((res) => {
+        console.log(res);
         setLoading(false);
         setUserInfo(res.data.data);
       })
       .catch((err) => {
+        console.log(err);
         setLoading(false);
-        if(err.response.request.status === 401){
+        if (err.response.request.status === 401) {
           dispatchAlertHandler({
             type: "error",
-            message : "Session Expired"
+            message: "Session Expired",
           });
           sessionExpiredLogout();
-        }
-        else{
+        } else {
           dispatchAlertHandler({
             type: "error",
-            message : "Something went wrong"
+            message: "Something went wrong",
           });
         }
       });

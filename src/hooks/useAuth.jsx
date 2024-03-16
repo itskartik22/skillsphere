@@ -14,17 +14,15 @@ export const AuthProvider = ({ children }) => {
   //Authetication Function
   //  Login Function
   const login = async ({ userEmail, userPassword }) => {
-    await axios
-      .post(
-        `${baseURL}/api/v1/users/login`,
-        {
+    await axios({
+        method: "post",
+        url: `${baseURL}/api/v1/users/login`,
+        data: {
           email: userEmail,
           password: userPassword,
         },
-        {
-          withCredentials: true,
-        }
-      )
+        withCredentials: true,
+      })
       .then((res) => {
         setUser(res.data);
         dispatchAlertHandler({
@@ -43,17 +41,18 @@ export const AuthProvider = ({ children }) => {
 
   //Signup Function
   const signup = async ({ userName, userEmail, userPassword }) => {
-    await axios
-      .post(
-        `${baseURL}/api/v1/users/signup`,
-        {
+    await axios({
+        url: `${baseURL}/api/v1/users/signup`,
+        method: "post",
+        data: {
           username: userName,
           email: userEmail,
           password: userPassword,
         },
-        { withCredentials: true }
-      )
+        withCredentials: true,
+      })
       .then((res) => {
+        console.log(res);
         setUser(res.data);
         dispatchAlertHandler({
           type: "success",
@@ -62,6 +61,7 @@ export const AuthProvider = ({ children }) => {
         navigate("/");
       })
       .catch((err) => {
+        console.log(err);
         dispatchAlertHandler({
           type: "error",
           message: err.response.data.message,
@@ -69,9 +69,13 @@ export const AuthProvider = ({ children }) => {
       });
   };
   const logout = async () => {
-    await axios
-      .post(`${baseURL}/api/v1/users/logout`, {}, { withCredentials: true })
+    await axios({
+        url: `${baseURL}/api/v1/users/logout`,
+        method: "post",
+        withCredentials: true,
+      })
       .then((res) => {
+        console.log(res);
         dispatchAlertHandler({
           type: "success",
           message: "succefully logout.",
@@ -79,6 +83,7 @@ export const AuthProvider = ({ children }) => {
         navigate("/");
       })
       .catch((err) => {
+        console.log(err);
         dispatchAlertHandler({
           type: "error",
           message: "failed to logout.",
