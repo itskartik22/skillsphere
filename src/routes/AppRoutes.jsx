@@ -15,6 +15,8 @@ import {
 } from "./../components";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
+import ResetPassword from "../components/routes-component/ResetPassword";
+import ForgotPassword from "../components/routes-component/ForgotPassword";
 
 const AppRoutes = () => {
   return (
@@ -38,6 +40,8 @@ const AppRoutes = () => {
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
           <Route path="denied" element={<PermissionDenied />} />
