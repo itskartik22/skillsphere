@@ -1,4 +1,4 @@
-import courseImg from "./../../../img/courseImg.png";
+// import courseImg from "./../../../img/courseImg.png";
 import { useState } from "react";
 
 const CoursesCard = ({ course, handleAddToCart }) => {
@@ -15,7 +15,7 @@ const CoursesCard = ({ course, handleAddToCart }) => {
         height: "400px",
       }}
     >
-      <img src={courseImg} alt="course-img" className="rounded-t-lg" />
+      <img src={course.image} alt="course-img" className="rounded-t-lg" />
       <div className="px-3">
         <h1 className="course-name text-lg font-semibold justify-items-start">
           {course.title}
