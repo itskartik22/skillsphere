@@ -28,7 +28,7 @@ const Profile = () => {
       dateOfBirth: "",
     },
   });
-  const [infoEdit, setInfoEdit] = useState(true);
+  const [editStatus, setEditStatus] = useState("info");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -40,6 +40,9 @@ const Profile = () => {
     college: "",
     dateOfBirth: "",
   });
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   //Storing photo changes
   const [profilePhoto, setProfilePhoto] = useState(null);
   useEffect(() => {
@@ -139,6 +142,55 @@ const Profile = () => {
       });
     setProfilePhoto(null);
   }
+  const handlePasswordChange = (event) => {
+    event.preventDefault();
+    if (password.length === 0 || confirmPassword.length === 0) {
+      dispatchAlertHandler({
+        type: "error",
+        message: "Password and Confirm Password should not be empty",
+      });
+      setPassword("");
+      setConfirmPassword("");
+      return;
+    }
+    if (password !== confirmPassword) {
+      dispatchAlertHandler({
+        type: "error",
+        message: "Password and Confirm Password should match",
+      });
+      setPassword("");
+      setConfirmPassword("");
+      return;
+    }
+
+    axios({
+      method: "POST",
+      url: `${baseURL}/api/v1/users/changeUserPassword`,
+      data: {
+        auth: {
+          password,
+          confirmPassword,
+        },
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        dispatchAlertHandler({
+          type: "success",
+          message: "Password Changed Successfully!",
+        });
+        setPassword("");
+        setConfirmPassword("");
+      })
+      .catch((error) => {
+        dispatchAlertHandler({
+          type: "error",
+          message: error.response.data.message,
+        });
+        setPassword("");
+        setConfirmPassword("");
+      });
+  };
   return (
     <div
       className={`${
@@ -159,7 +211,7 @@ const Profile = () => {
             />
           </button>
           <h3 className="text-lg font-semibold">Edit Details</h3>
-          {infoEdit ? (
+          {editStatus === "info" ? (
             <form
               className="flex flex-col gap-3"
               onSubmit={handleFormSubmition}
@@ -305,7 +357,7 @@ const Profile = () => {
                 Save Changes
               </button>
             </form>
-          ) : (
+          ) : editStatus === "photo" ? (
             <form
               className="flex flex-col justify-start gap-5"
               onSubmit={handleProfilePhotoChange}
@@ -328,7 +380,41 @@ const Profile = () => {
                 Change Photo
               </button>
             </form>
-          )}
+          ) : editStatus === "password" ? (
+            <form
+              className="flex flex-col gap-5 m-4 border-4 p-6"
+              onSubmit={handlePasswordChange}
+            >
+              <div className="flex justify-between gap-5">
+                <label htmlFor="">New Password</label>
+                <input
+                  className="cursor-pointer border-2 px-1"
+                  type="password"
+                  value={password}
+                  onChange={(event) => {
+                    setPassword(event.target.value);
+                  }}
+                />
+              </div>
+              <div className="flex justify-between gap-5">
+                <label htmlFor="">Confirm New Password</label>
+                <input
+                  className="cursor-pointer border-2 px-1"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(event) => {
+                    setConfirmPassword(event.target.value);
+                  }}
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-fit text-white self-center bg-violet-500 px-6 py-2 rounded-md"
+              >
+                Change Password
+              </button>
+            </form>
+          ) : null}
         </div>
       </div>
 
@@ -345,7 +431,7 @@ const Profile = () => {
             className="absolute bottom-0 right-0 text-white bg-violet-500 px-2 py-2 border-white border-4 rounded-full"
             onClick={() => {
               handleEditProfile();
-              setInfoEdit(false);
+              setEditStatus("photo");
             }}
           >
             <FaCamera className="text-2xl" />
@@ -489,13 +575,19 @@ const Profile = () => {
             <button
               className="text-white bg-violet-500 px-4 py-2 rounded-md"
               onClick={() => {
-                setInfoEdit(true);
+                setEditStatus("info");
                 handleEditProfile();
               }}
             >
               Edit Profile
             </button>
-            <button className="text-white bg-violet-500 px-4 py-2 rounded-md">
+            <button
+              className="text-white bg-violet-500 px-4 py-2 rounded-md"
+              onClick={() => {
+                setEditStatus("password")
+                handleEditProfile();
+              }}
+            >
               Change Password
             </button>
           </div>
