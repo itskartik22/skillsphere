@@ -53,7 +53,7 @@ useEffect(() => {
       <div onClick={() => window.location.href = `/course/${courses[activeIndex]._id}`} className="bg-white/90 bg-blend-multiply absolute h-[800px] sm:w-1/2 w-2/3 -translate-y-48 -translate-x-10 -rotate-12"></div>
       <div onClick={() => window.location.href = `/course/${courses[activeIndex]._id}`} className="carousel__info absolute top-0 left-0 h-full flex flex-col w-1/2 justify-center sm:pl-16 xsm:pl-10 pl-4 sm:pr-12 pr-10">
         <h2 className="carousel__title sm:text-3xl text-2xl">{courses && courses[activeIndex]?.title}</h2>
-        <p className="carousel__desc sm:text-base text-sm text-gray-600">By {courses && courses[activeIndex]?.instructor.instructorName}</p>
+        <p className="carousel__desc sm:text-base text-sm text-gray-600">By {courses && courses[activeIndex]?.instructor?.name}</p>
       </div>
       <img
         src={courses && courses[activeIndex]?.image}

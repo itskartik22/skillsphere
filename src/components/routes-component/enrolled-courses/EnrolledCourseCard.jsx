@@ -21,7 +21,7 @@ const EnrolledCoursesCard = ({ course }) => {
         <h1 className="course-name text-lg font-semibold justify-items-start">
           {course.title}
         </h1>
-        <p className="">By {course.instructor?.instructorName}</p>
+        <p className="">By {course.instructor?.name}</p>
       </div>
     </div>
   );
