@@ -1,7 +1,7 @@
 export { default as Login } from "./routes-component/Login";
 export { default as SignUp } from "./routes-component/SignUp";
 export { default as Home } from "./routes-component/home/Home";
-export { default as AdminDashboard } from "./routes-component/AdminDashboard";
+export { default as AdminDashboard } from "./dashboard/AdminDashboard";
 export { default as Profile } from "./routes-component/Profile";
 export { default as Setting } from "./routes-component/Settings";
 export { default as PageNotFound } from "./routes-component/PageNotFound";
@@ -10,7 +10,7 @@ export { default as Navbar } from "./navbar/Navbar";
 export { default as EnrolledCourses } from "./routes-component/enrolled-courses/EnrolledCourses";
 export { default as CoursesCard } from "./routes-component/home/CourseCard";
 export { default as OurCourses } from "./routes-component/home/OurCourses";
-export { default as InnerContainer } from "./InnerContainer";
+export { default as NavbarLayout } from "./NavbarLayout";
 export { default as DashboardSidebar } from "./dashboard/DashboardSidebar";
 export { default as DashboardMain } from "./dashboard/DashboardMain";
 export { default as ContentManager } from "./dashboard/ContentManager";

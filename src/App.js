@@ -1,5 +1,4 @@
 import AppRoutes from "./routes/AppRoutes";
-import { Navbar } from "./components";
 import "./index.css";
 import Alert from "./components/Alert";
 import { useEffect, useReducer } from "react";
@@ -39,7 +38,7 @@ function App() {
             ) : (
               ""
             )}
-            <Navbar />
+            {/* <Navbar /> */}
             <AppRoutes />
           </div>
         </AuthProvider>

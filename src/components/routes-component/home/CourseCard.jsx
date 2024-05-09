@@ -9,31 +9,29 @@ const CoursesCard = ({ course, handleAddToCart }) => {
   };
   return (
     <div
-      className="relative flex flex-col gap-2 shadow-md rounded-lg"
-      style={{
-        width: "300px",
-        height: "400px",
-      }}
+      className="xsm:w-auto w-[280px] max-w-[350px] h-[350px] relative flex flex-col flex-auto gap-2 shadow-md rounded-lg"
     >
-      <img src={course.image} alt="course-img" className="rounded-t-lg" />
+      <img src={course.image} alt="course-img" className="rounded-t-lg w-full h-1/2 object-cover" />
       <div className="px-3">
         <h1 className="course-name text-lg font-semibold justify-items-start">
           {course.title}
         </h1>
-        <p>{course.courseDescription}</p>
+        <p className="text-sm truncate ">{course.description}</p>
       </div>
       <div className="w-full flex flex-col absolute bottom-0">
-        <div className="w-full flex justify-between text-xl px-3 py-2">
+        <div className="w-full flex gap-3 text-lg px-3 py-2">
           <p>Price :-</p>
           <span>
-            <span className="text-red-500 text-sm">
-              ({course.discount}% Discount)
-            </span>{" "}
             ₹ {course.price}/-
+            <span className="text-red-500 text-sm">
+              ({course.discount}% off)
+            </span>{" "}
           </span>
         </div>
         <div className="w-full flex">
-          <button className="w-1/2 text-black hover:bg-gray-100 focus:ring-4 focus:ring-violet-300 font-medium rounded-bl-lg text-base px-6 py-2.5 focus:outline-none">
+          <button className="w-1/2 text-black hover:bg-gray-100 focus:ring-4 focus:ring-violet-300 font-medium rounded-bl-lg text-base px-6 py-2.5 focus:outline-none"
+            onClick={() => window.location.href = `/course/${course._id}`}
+          >
             Explore
           </button>
           <button

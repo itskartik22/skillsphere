@@ -6,6 +6,9 @@ module.exports = {
       animation: {
         skeleton: "skeleton 1s ease infinite alternate",
       },
+      screens:{
+        "xsm": "360px",
+      },
       colors: {
         "skeleton-dark": "#c8c7c7",
         skeleton: "#d3d2d2",

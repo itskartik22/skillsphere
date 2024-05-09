@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
-import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
 import { MdDashboardCustomize } from "react-icons/md";
@@ -11,10 +10,11 @@ import { CgProfile } from "react-icons/cg";
 import { IoIosSettings } from "react-icons/io";
 import { FaRegHeart, FaSignOutAlt } from "react-icons/fa";
 import { LiaHandPointer } from "react-icons/lia";
+import { useAuth } from "../../../hooks/useAuth";
 
-const NavProfileView = () => {
+const NavProfileMenu = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth()
   return (
     <>
       <div
@@ -22,10 +22,6 @@ const NavProfileView = () => {
         onMouseEnter={() => setIsDropdownVisible((state) => !state)}
         onMouseLeave={() => setIsDropdownVisible((state) => !state)}
       >
-        <span className="text-base font-medium">
-          {" "}
-          {user ? user.userInfo.username : "User"}
-        </span>
         <div className="border-2 border-violet-500 p-2 rounded-full">
           <FaUser className="text-2xl" />
         </div>
@@ -35,7 +31,7 @@ const NavProfileView = () => {
             <div className="absolute z-10 sm:flex flex-col items-center w-40 top-10 -right-3 bg-violet-500 text-white shadow-lg rounded-md m-1 px-2 py-2 ">
               {user && user.userInfo.role === "admin" ? (
                 <Link
-                  to={"admin/dashboard/home"}
+                  to={"/admin/dashboard/home"}
                   className="w-full flex items-center justify-center gap-1 p-1 border-solid hover:text-white hover:bg-violet-400"
                 >
                   <MdDashboardCustomize className="inline-block" />
@@ -45,13 +41,13 @@ const NavProfileView = () => {
                 ""
               )}
               <Link
-                to={"user/profile"}
+                to={"/user/profile"}
                 className="w-full flex items-center justify-center gap-1 p-1 border-solid hover:text-white hover:bg-violet-600"
               >
                 <span>Profile</span>
               </Link>
               <Link
-                to={"user/setting"}
+                to={"/user/setting"}
                 className="w-full flex items-center justify-center gap-1 p-1 border-solid hover:text-white hover:bg-violet-600"
               >
                 <span>Setting</span>
@@ -72,15 +68,15 @@ const NavProfileView = () => {
       {/* Mobile Section */}
       <div className="sm:hidden flex items-center gap-4 py-1" style={{}}>
         {" "}
-        <Link to={"user/course-cart"} className="relative">
+        {/* <Link to={"/user/course-cart"} className="relative">
           <div
             className={`absolute w-3 h-3 bg-red-600 rounded-full -right-1 -top-1 ${
               true ? "" : "hidden"
             }`}
-          ></div>
+          ></div> */}
           {/* Mobile menu btn */}
-          <FaCartShopping className="text-xl" />
-        </Link>
+          {/* <FaCartShopping className="text-xl" /> */}
+        {/* </Link> */}
         {/* <span className="text-base">{user?.userInfo.username}</span>  */}
         <LuMenu
           className="text-3xl"
@@ -119,7 +115,7 @@ const NavProfileView = () => {
               ""
             )}
             <Link
-              to={"user/enrolled-courses"}
+              to={"/user/enrolled-courses"}
               className="w-full flex items-center gap-2 p-1 my-1 border-solid hover:text-white hover:bg-violet-600"
               onClick={() => setIsDropdownVisible((state) => !state)}
             >
@@ -127,7 +123,7 @@ const NavProfileView = () => {
               <span>Enrolled Courses</span>
             </Link>
             <Link
-              to={"user/wishlist"}
+              to={"/user/wishlist"}
               className="w-full flex items-center gap-2 p-1 my-1 border-solid hover:text-white hover:bg-violet-600"
               onClick={() => setIsDropdownVisible((state) => !state)}
             >
@@ -135,7 +131,7 @@ const NavProfileView = () => {
               <span>Wishlist</span>
             </Link>
             <Link
-              to={"user/profile"}
+              to={"/user/profile"}
               className="w-full flex items-center gap-2 p-1 my-1 border-solid hover:text-white hover:bg-violet-600"
               onClick={() => setIsDropdownVisible((state) => !state)}
             >
@@ -143,7 +139,7 @@ const NavProfileView = () => {
               <span>Profile</span>
             </Link>
             <Link
-              to={"user/setting"}
+              to={"/user/setting"}
               className="w-full flex items-center gap-2 p-1 my-1 border-solid hover:text-white hover:bg-violet-600"
               onClick={() => setIsDropdownVisible((state) => !state)}
             >
@@ -169,4 +165,4 @@ const NavProfileView = () => {
   );
 };
 
-export default NavProfileView
+export default NavProfileMenu;

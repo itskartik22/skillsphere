@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { NavProfileView } from "./NavProfileView";
+import NavProfileView from "./NavProfileView";
 import { FaCartShopping } from "react-icons/fa6";
 // import { useState } from "react";
 
@@ -10,7 +10,7 @@ const Navbar = () => {
   const { user } = useAuth();
 
   return (
-    <nav className="w-screen z-40 flex justify-between items-center py-2 md:px-10 sm:px-10 px-3 shadow-md">
+    <nav className="w-screen z-40 flex justify-between items-center py-2 md:px-10 sm:px-10 px-3 shadow-lg">
       <div className="logoSection text-xl">
         <Link to={"/"} className="text-violet-700 font-semibold">
           SkillSphere

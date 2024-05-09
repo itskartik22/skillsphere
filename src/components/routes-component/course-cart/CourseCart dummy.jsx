@@ -15,9 +15,9 @@ const CourseCart = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
-  const token = user.token;
   useEffect(() => {
     //Fetching Cart Courses
+    const token = user.token;
     axios({
       method: "get",
       url: `${baseURL}/api/v1/users/cart-courses`,
@@ -100,26 +100,6 @@ const CourseCart = () => {
     setIsPaymentProcessing(true);
   };
 
-  const handleCourseEnrollmentById = (courseId) => {
-    axios({
-      method: "patch",
-      url: `${baseURL}/api/v1/users/enroll-course/${courseId}`,
-      headers: { Authorization: "Bearer " + token },
-      withCredentials: true,
-    })
-      .then((res) => {
-        const remainingCourses = courses.filter(
-          (course) => course._id !== courseId
-        );
-        setCourses(remainingCourses);
-      })
-      .catch((err) => {
-        console.log(err);
-        
-        alert(err.response.data.message);
-      });
-  }
-
   const handleCourseDeletionById = (courseId) => {
     axios({
       method: "delete",
@@ -147,47 +127,29 @@ const CourseCart = () => {
         minHeight: `calc(100vh - 150px)`,
       }}
     >
-      <div className="w-full flex flex-col items-start py-4 md:px-6">
-        <h1 className="text-2xl font-semibold mb-2">Your Cart</h1>
+      <div className="md:w-2/3 flex flex-col items-start py-4 md:px-6 gap-2">
+        <h1 className="text-2xl font-semibold">Your Cart</h1>
         <div
           className="w-full bg-gray-300"
           style={{
             height: "2px",
           }}
         ></div>
-        <div className="w-full flex items-center py-3">
-          <span className="md:text-center font-medium px-2">Items</span>
+        <div className="w-full flex">
+          <span className="w-3/5 md:text-center px-2">Items</span>
+          <span className="w-1/5 text-center md:inline-block hidden">
+            Discount(%)
+          </span>
+          <span className="w-1/5 text-center md:inline-block hidden">
+            Price
+          </span>
         </div>
-        {/* <table className="w-full flex-col gap-2">
-          <thead>
-            <tr className="text-left flex my-3 mx-2">
-              <th className="w-3/6">Items</th>
-            </tr>
-          </thead>
-          <div
-            className="w-full bg-gray-300"
-            style={{
-              height: "2px",
-            }}
-          ></div>
-          <tbody>
-            {loading ? (
-              <>
-                <CartCardSkeleton />
-                <CartCardSkeleton />
-                <CartCardSkeleton />
-              </>
-            ) : (
-              courses?.map((course) => (
-                <CartCard
-                  key={course._id}
-                  course={course}
-                  handleCurrentCourseDeletion={handleCourseDeletionById}
-                />
-              ))
-            )}
-          </tbody>
-        </table> */}
+        <div
+          className="w-full bg-gray-300"
+          style={{
+            height: "2px",
+          }}
+        ></div>
         <div className="w-full flex flex-col gap-1">
           {loading ? (
             <>
@@ -201,11 +163,60 @@ const CourseCart = () => {
                 key={course._id}
                 course={course}
                 handleCurrentCourseDeletion={handleCourseDeletionById}
-                handleCourseEnrollment={handleCourseEnrollmentById}
               />
             ))
           )}
         </div>
+      </div>
+      <div className="md:w-1/3 flex flex-col items-start gap-2 border-l-2 shadow-slate-500 py-4 px-6">
+        <h1 className="text-2xl font-semibold">Order Summary</h1>
+        <div
+          className="w-full bg-gray-300"
+          style={{
+            height: "2px",
+          }}
+        ></div>
+        <div className="w-full flex justify-between items-center text-base">
+          <span>Items</span>
+          <span>{itemCount}</span>
+        </div>
+        <div className="w-full flex justify-between items-center text-base">
+          <span>Tax</span>
+          <span>+18% (GST included)</span>
+        </div>
+        <div className="w-full flex justify-between items-center text-base">
+          <span>Discount</span>
+          <span>- ₹{totalDiscount}</span>
+        </div>
+        <div className="w-full flex flex-col text-base gap-2">
+          <span>Promo Code</span>
+          <div className="flex justify-between gap-2">
+            <input
+              type="text"
+              placeholder="Apply Promo Code"
+              className="w-full border-2 px-2"
+            />
+            <button className="text-white bg-gray-950 hover:bg-gray-900  font-medium text-base px-5 py-1.5 focus:outline-none">
+              Apply
+            </button>
+          </div>
+        </div>
+        <div
+          className="w-full bg-gray-300 mt-2"
+          style={{
+            height: "2px",
+          }}
+        ></div>
+        <div className="w-full flex justify-between items-center text-lg font-semibold">
+          <span>Total Cost</span>
+          <span>₹ {totalCost} /-</span>
+        </div>
+        <button
+          className="w-full text-white bg-violet-500 hover:bg-violet-700 focus:ring-4 focus:ring-violet-300 font-medium text-lg px-6 py-1.5 focus:outline-none"
+          onClick={() => handlePaymentProcessing()}
+        >
+          Checkout
+        </button>
       </div>
     </div>
   );

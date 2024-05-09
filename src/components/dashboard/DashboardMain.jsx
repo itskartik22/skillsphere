@@ -12,7 +12,7 @@ const DashboardMain = ({ activeDashboardMenu }) => {
   else content = <Home />;
   return (
     <div
-      className="w-6/12 flex flex-col py-4"
+      className="w-10/12 flex flex-col py-4"
       style={{
         minHeight: `calc(100vh - ${navbarHeight})`,
       }}

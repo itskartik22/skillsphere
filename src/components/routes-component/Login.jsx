@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { AlertContext, AlertDispatchContext } from "../../context/Context";
+import loginImg from "./../../img/login.jpg";
 
 const Login = () => {
   const alert = useContext(AlertContext);
@@ -50,35 +51,36 @@ const Login = () => {
     setUserPassword("");
   };
   return (
-    <section className="w-full min-h-screen bg-gray-50 px-6 py-8 dark:bg-gray-900">
-      {/* {alert.status ? (
-        <Alert
-          status={alert.status}
-          type={alert.type}
-          message={alert.message}
-        />
-      ) : (
-        ""
-      )} */}
-      <div className="flex flex-col items-center">
-        <Link
-          to={"/"}
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
-          {/* <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
+        <div className="flex lg:flex-row flex-col gap-5 items-center mx-auto md:h-screen sm:p-10 py-10 px-3">
+      <div className="lg:w-1/2 md:2/3 flex flex-col items-center justify-center">
+        <div className="">
+          <h1 className="gap-2 lg:text-5xl sm:text-4xl xsm:text-3xl text-2xl sm:font-semibold font-medium text-center">
+          Welcome to&nbsp;
+          <span>
+            <Link
+              to={"/"}
+              className="text-violet-900"
+            >
+              {/* <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
           Flowbite     */}
-          SkillSphere
-        </Link>
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+               SkillSphere
+            </Link>
+
+          </span>
+          </h1>
+        </div>
+        <img src={loginImg} alt="" className="lg:block hidden w-3/4" />
+      </div>
+      <div className="lg:w-1/2 md:w-2/3 sm:w-3/4 w-full flex items-center justify-center">
+        <div className="w-full bg-gray-50/75 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign in to your account
+            <h1 className="md:font-semibold leading-tight tracking-tight md:text-2xl text-2xl">
+              Sign in
             </h1>
-            {/* <form className="space-y-4 md:space-y-6" action="#"> */}
             <div>
               <label
                 htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-base font-medium"
               >
                 Your email
               </label>
@@ -86,17 +88,19 @@ const Login = () => {
                 type="email"
                 name="email"
                 id="email"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-100 border border-gray-300 sm:text-sm rounded-lg block w-full p-2.5"
                 placeholder="name@company.com"
                 required=""
                 value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
+                onChange={(e) => {
+                  setUserEmail(e.target.value);
+                }}
               />
             </div>
             <div>
               <label
                 htmlFor="password"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-base font-medium"
               >
                 Password
               </label>
@@ -105,59 +109,46 @@ const Login = () => {
                 name="password"
                 id="password"
                 placeholder="••••••••"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-100 border border-gray-300 sm:text-sm rounded-lg block w-full p-2.5"
                 required=""
                 value={userPassword}
-                onChange={(e) => setUserPassword(e.target.value)}
+                onChange={(e) => {
+                  setUserPassword(e.target.value);
+                }}
               />
             </div>
+            <button
+              type="submit"
+              className="w-full text-white bg-violet-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              onClick={() => {
+                userLogin();
+              }}
+            >
+              Login
+            </button>
             <div className="flex items-center justify-between">
-              {/* <div className="flex items-start">
-                <div className="flex items-center h-5">
-                  <input
-                    id="remember"
-                    aria-describedby="remember"
-                    type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                    required=""
-                  />
-                </div>
-                <div className="ml-3 text-sm">
-                  <label
-                    htmlFor="remember"
-                    className="text-gray-500 dark:text-gray-300"
-                  >
-                    Remember me
-                  </label>
-                </div>
-              </div> */}
               <Link
                 to={"/forgot-password"}
-                className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                className="text-sm font-medium text-violet-600"
               >
                 Forgot password?
               </Link>
             </div>
-            <button
-              className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              onClick={userLogin}
-            >
-              Sign in
-            </button>
-            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-              Don’t have an account yet?{" "}
+            <p className="text-sm font-light">
+              Don't have account ?{" "}
               <Link
                 to={"/signup"}
-                className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                className="font-medium text-violet-600"
               >
-                Sign up
+                Create an account
               </Link>
             </p>
             {/* </form> */}
           </div>
         </div>
       </div>
-    </section>
+    </div>
+
   );
 };
 

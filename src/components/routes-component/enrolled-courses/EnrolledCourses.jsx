@@ -21,7 +21,7 @@ const EnrolledCourses = () => {
     })
       .then((res) => {
         console.log(res);
-        setCourses(res.data.data.coursesEnrolled);
+        setCourses(res.data.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -75,8 +75,8 @@ const EnrolledCourses = () => {
           ) : courses.length === 0 ? (
             "No Courses Enrolled"
           ) : (
-            courses?.map((course) => (
-              <EnrolledCourseCard key={course._id} course={course} />
+            courses?.map((data) => (
+              <EnrolledCourseCard key={data._id} course={data.course} />
             ))
           )}
         </div>
