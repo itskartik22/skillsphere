@@ -5,26 +5,27 @@ import OurCourses from "./OurCourses";
 import axios from "axios";
 
 const Home = () => {
-  const [courses, setCourses] = useState([]);
+  const [topFiveCourses, setTopFiveCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     //Courses imported
     axios({
       method: "get",
-      url: `${baseURL}/api/v1/courses`,
+      url: `${baseURL}/api/v1/courses/top-5`,
     })
       .then((res) => {
-        setCourses(res.data.courses);
+        setTopFiveCourses(res.data.data);
         setLoading(false);
       })
       .catch((err) => {
         setLoading(false);
       });
-  }, [courses.length]);
+  }, []);
+  
   return (
     <div className="w-full flex flex-col gap-8 md:px-0 items-center">
-      <Carousel loading={loading} courses={courses} />
-      <OurCourses loading={loading} courses={courses} />
+      <Carousel loading={loading} courses={topFiveCourses} />
+      <OurCourses />
     </div>
   );
 };

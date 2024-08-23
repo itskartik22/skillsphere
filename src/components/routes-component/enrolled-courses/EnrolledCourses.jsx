@@ -5,6 +5,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import baseURL from "../../../config/config";
 import EnrolledCourseCardSkeleton from "../../animation/skeletons/EnrolledCourseCardSkeleton";
 import { AlertDispatchContext } from "../../../context/Context";
+import { FaBook } from "react-icons/fa";
 
 const EnrolledCourses = () => {
   const { user, sessionExpiredLogout } = useAuth();
@@ -40,26 +41,14 @@ const EnrolledCourses = () => {
         }
         setLoading(false);
       });
-  }, [courses.length, token]);
+  }, []);
 
-  // if (courses && courses.length === 0) {
-  //   return (
-  //     <div className="md:w-3/4 w-full py-8 md:px-0 sm:px-10 px-4  justify-items-center">
-  //       <div className="w-full flex justify-center flex-col">
-  //         <h2 className="md:text-4xl sm:text-3xl text-2xl md:font-semibold font-medium">
-  //           Enrolled Courses
-  //         </h2>
-  //         <div className="w-full border-2 my-2"></div>
-  //         <div className="w-full text-lg">No Courses Enrolled</div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
   return (
     <div className="md:w-3/4 min-h-screen w-full py-8 md:px-0 sm:px-10 px-4  justify-items-center">
       <div className="w-full flex justify-center flex-col">
-        <h2 className="md:text-4xl sm:text-3xl text-2xl md:font-semibold font-medium">
-          Enrolled Courses
+        <h2 className="md:text-2xl sm:text-xl text-xl flex items-center gap-2 bg-violet-500 text-white py-2 px-3 rounded-md w-fit">
+          <FaBook className="inline-block" />
+          <span className="">Enrolled Courses</span>
         </h2>
         <div className="w-full border-2 my-2"></div>
         <div className="w-full flex flex-row justify-evenly items-center flex-wrap gap-10 p-2">
@@ -75,9 +64,14 @@ const EnrolledCourses = () => {
           ) : courses.length === 0 ? (
             "No Courses Enrolled"
           ) : (
-            courses?.map((data) => (
-              <EnrolledCourseCard key={data._id} course={data.course} />
+            courses?.map((course) => (
+              <EnrolledCourseCard key={course._id} course={course} />
             ))
+          )}
+          {courses.length === 0 && (
+            <h1 className="text-lg font-semibold flex justify-center h-full items-center">
+              <span className="text-center">No Courses in Cart</span>
+            </h1>
           )}
         </div>
       </div>

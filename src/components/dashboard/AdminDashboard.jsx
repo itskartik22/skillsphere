@@ -1,27 +1,18 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import { DashboardMain, DashboardSidebar } from "..";
-import { useParams } from "react-router-dom";
+import {
+  ActiveMenuContext,
+  ActiveMenuDispatchContext,
+} from "../../context/AdminMenuContext";
+import adminMenuReducer from "../../reducer/adminMenuReducer";
 const AdminDashboard = () => {
-  const { menuOption } = useParams();
-  console.log(menuOption)
-  const [activeDashboardMenu, setActiveDashboardMenu] = useState(menuOption);
-
-  // const handleActiveMenuOption = (state) => {
-  //   setActiveDashboardMenu(state);
-  // };
   return (
     <div className="w-full flex">
       {/* SideBar */}
-      <DashboardSidebar
-        activeDashboardMenu={activeDashboardMenu}
-        // handleActiveMenuOption={handleActiveMenuOption}
-      />
+      <DashboardSidebar />
 
       {/* Main Section */}
-      <DashboardMain activeDashboardMenu={activeDashboardMenu} />
-
-      {/* Management Section
-      <ContentManager activeDashboardMenu={activeDashboardMenu} /> */}
+      <DashboardMain />
     </div>
   );
 };

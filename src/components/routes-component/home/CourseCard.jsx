@@ -17,6 +17,7 @@ const CoursesCard = ({ course, handleAddToCart }) => {
           {course.title}
         </h1>
         <p className="text-sm truncate ">{course.description}</p>
+        <p className="text-sm font-medium">By {course.instructor?.name}</p>
       </div>
       <div className="w-full flex flex-col absolute bottom-0">
         <div className="w-full flex gap-3 text-lg px-3 py-2">

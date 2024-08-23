@@ -1,14 +1,14 @@
-import { Users, Courses, Notifications, Security, Setting } from "./main";
+import { UsersManagement, CoursesManagement, Notifications, Security, Setting } from "./main";
 
 const ContentManager = ({ activeDashboardMenu }) => {
   const navbarHeight = "59.2px";
   let content = "";
-  if (activeDashboardMenu === "Home") content = "Content-Manager";
-  else if (activeDashboardMenu === "User") content = <Users />;
-  else if (activeDashboardMenu === "Course") content = <Courses />;
-  else if (activeDashboardMenu === "Notification") content = <Notifications />;
-  else if (activeDashboardMenu === "Setting") content = <Setting />;
-  else if (activeDashboardMenu === "Security") content = <Security />;
+  if (activeDashboardMenu === "home") content = "Content-Manager";
+  else if (activeDashboardMenu === "users-management") content = <UsersManagement />;
+  else if (activeDashboardMenu === "course-management") content = <CoursesManagement />;
+  else if (activeDashboardMenu === "notification-management") content = <Notifications />;
+  else if (activeDashboardMenu === "admin-setting") content = <Setting />;
+  else if (activeDashboardMenu === "securtiy") content = <Security />;
   else content = "Content-Manager";
   return (
     <div

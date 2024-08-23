@@ -7,6 +7,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
+    "crypto-js": "^4.2.0",
     "framer-motion": "^10.17.9",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
@@ -43,6 +44,7 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.3.6"
+    "tailwindcss": "^3.3.6",
+    "video.js": "^8.17.3"
   }
 }

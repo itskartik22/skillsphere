@@ -5,6 +5,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import baseURL from "../../../config/config";
 import CartCardSkeleton from "../../animation/skeletons/CartCardSkeleton";
 import { AlertDispatchContext } from "../../../context/Context";
+import { MdShoppingCart } from "react-icons/md";
 
 const CourseCart = () => {
   const { user, sessionExpiredLogout } = useAuth();
@@ -14,7 +15,6 @@ const CourseCart = () => {
   const [itemCount, setItemCount] = useState(0);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const token = user.token;
   useEffect(() => {
     //Fetching Cart Courses
@@ -61,64 +61,27 @@ const CourseCart = () => {
       return null;
     }
     costVariable();
-    //Setting isPaymentProcessing False
-    setTimeout(() => {
-      setIsPaymentProcessing(false);
-    }, 3000);
   }, []);
-  //Setting isPaymentProcessing True
-  const handlePaymentProcessing = () => {
-    if (courses.length === 0) {
-      dispatchAlertHandler({
-        type: "error",
-        message: "No course in cart!",
-      });
-      return;
-    }
-    const cartCourseIds = courses.map((course) => course._id);
-    axios({
-      method: "patch",
-      url: `${baseURL}/api/v1/users/enroll-courses`,
-      // headers: { Authorization: "Bearer " + token },
-      data: {
-        courseIds: cartCourseIds,
-      },
-      withCredentials: true,
-    })
-      .then((res) => {
-        dispatchAlertHandler({
-          type: "success",
-          message: res.data.message,
-        });
-      })
-      .catch((err) => {
-        dispatchAlertHandler({
-          type: "success",
-          message: err.response.data.data.message,
-        });
-      });
-    setIsPaymentProcessing(true);
-  };
 
-  const handleCourseEnrollmentById = (courseId) => {
-    axios({
-      method: "patch",
-      url: `${baseURL}/api/v1/users/enroll-course/${courseId}`,
-      headers: { Authorization: "Bearer " + token },
-      withCredentials: true,
-    })
-      .then((res) => {
-        const remainingCourses = courses.filter(
-          (course) => course._id !== courseId
-        );
-        setCourses(remainingCourses);
-      })
-      .catch((err) => {
-        console.log(err);
-        
-        alert(err.response.data.message);
-      });
-  }
+  // const handleCourseEnrollmentById = (courseId) => {
+  //   axios({
+  //     method: "patch",
+  //     url: `${baseURL}/api/v1/users/enroll-course/${courseId}`,
+  //     headers: { Authorization: "Bearer " + token },
+  //     withCredentials: true,
+  //   })
+  //     .then((res) => {
+  //       const remainingCourses = courses.filter(
+  //         (course) => course._id !== courseId
+  //       );
+  //       setCourses(remainingCourses);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+
+  //       alert(err.response.data.message);
+  //     });
+  // }
 
   const handleCourseDeletionById = (courseId) => {
     axios({
@@ -139,7 +102,6 @@ const CourseCart = () => {
       });
   };
   //Cost Variable Calculating Function
-  if (isPaymentProcessing) return <Loader />;
   return (
     <div
       className="md:w-3/4 w-full flex md:flex-row flex-col md:my-8 md:gap-2 gap-5 rounded-md shadow-lg p-4"
@@ -148,16 +110,13 @@ const CourseCart = () => {
       }}
     >
       <div className="w-full flex flex-col items-start py-4 md:px-6">
-        <h1 className="text-2xl font-semibold mb-2">Your Cart</h1>
+        <h1 className="text-2xl text-center px-3 py-1 rounded-md shadow-md bg-violet-500 text-white mb-2 flex items-center gap-1"><MdShoppingCart className="inline-block" /><span>Your Cart</span></h1>
         <div
           className="w-full bg-gray-300"
           style={{
             height: "2px",
           }}
         ></div>
-        <div className="w-full flex items-center py-3">
-          <span className="md:text-center font-medium px-2">Items</span>
-        </div>
         {/* <table className="w-full flex-col gap-2">
           <thead>
             <tr className="text-left flex my-3 mx-2">
@@ -188,7 +147,7 @@ const CourseCart = () => {
             )}
           </tbody>
         </table> */}
-        <div className="w-full flex flex-col gap-1">
+        <div className="relative w-full h-full flex flex-col gap-1">
           {loading ? (
             <>
               <CartCardSkeleton />
@@ -201,9 +160,13 @@ const CourseCart = () => {
                 key={course._id}
                 course={course}
                 handleCurrentCourseDeletion={handleCourseDeletionById}
-                handleCourseEnrollment={handleCourseEnrollmentById}
               />
             ))
+          )}
+          {courses.length === 0 && (
+            <h1 className="text-lg font-semibold flex justify-center h-full items-center">
+              <span className="text-center">No Courses in Cart</span>
+            </h1>
           )}
         </div>
       </div>

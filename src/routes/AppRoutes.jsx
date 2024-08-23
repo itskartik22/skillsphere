@@ -30,9 +30,16 @@ const AppRoutes = () => {
           <Route element={<ProtectedRoute roleRequired={"admin"} />}>
             <Route element={<NavbarLayout />}>
               <Route
-                path="/admin/dashboard/:menuOption"
+                path="/admin/dashboard"
                 element={<AdminDashboard />}
               />
+              {/* <Route element={<CourseEditorLayout />}>
+                <Route
+                  path="/admin/dashboard/course-editor/:courseId"
+                  element={<CourseEditor />}
+                />
+              </Route> */}
+
               <Route path="/admin/createItem" element={<Setting />} />
             </Route>
           </Route>
@@ -56,10 +63,10 @@ const AppRoutes = () => {
             {/* <Route path="/explore-course/:courseId" element={<ExploreCourse />} /> */}
             <Route element={<CoursePageLayout />}>
               <Route path="/course/:courseId" element={<CoursePage />} />
-              <Route
+              {/* <Route
                 path="/course/:courseId/module/:moduleId"
                 element={<CoursePage />}
-              />
+              /> */}
             </Route>
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

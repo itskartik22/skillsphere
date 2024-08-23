@@ -48,13 +48,11 @@ const Profile = () => {
   useEffect(() => {
     //Fetching userInformation
     axios({
-      method: "get",
       url: `${baseURL}/api/v1/users/user-profile`,
-      headers: { Authorization: `Bearer ${token}` },
+      method: "GET",
       withCredentials: true,
     })
       .then((res) => {
-        console.log(res);
         setLoading(false);
         setUserInfo(res.data.data);
       })
@@ -74,7 +72,7 @@ const Profile = () => {
         }
         // alert(err.response.data.message);
       });
-  }, [setUserInfo, token, formData]);
+  }, []);
   const handleFormData = (e) => {
     setFormData((state) => ({
       ...state,

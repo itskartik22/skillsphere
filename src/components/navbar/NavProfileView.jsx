@@ -35,7 +35,7 @@ const NavProfileView = () => {
             <div className="absolute z-10 sm:flex flex-col items-center w-40 top-10 -right-3 bg-violet-500 text-white shadow-lg rounded-md m-1 px-2 py-2 ">
               {user && user.userInfo.role === "admin" ? (
                 <Link
-                  to={"admin/dashboard/home"}
+                  to={"admin/dashboard"}
                   className="w-full flex items-center justify-center gap-1 p-1 border-solid hover:text-white hover:bg-violet-400"
                 >
                   <MdDashboardCustomize className="inline-block" />
@@ -169,4 +169,4 @@ const NavProfileView = () => {
   );
 };
 
-export default NavProfileView
+export default NavProfileView;

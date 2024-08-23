@@ -1,82 +1,104 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { IoIosArrowForward } from "react-icons/io";
-import { Link, useParams } from "react-router-dom";
+import { ActiveMenuContext, ActiveMenuDispatchContext } from "../../context/AdminMenuContext";
 
 const DashboardSidebar = () => {
-  const { menuOpt } = useParams();
-  const [activeDashboardMenu, setActiveDashboardMenu] = useState(menuOpt);
-  useEffect(() => {
-    setActiveDashboardMenu(menuOpt);
-  }, [menuOpt]);
+  const menuOption = useContext(ActiveMenuContext);
+  const dispatch = useContext(ActiveMenuDispatchContext);
 
-  const navbarHeight = "59.2px";
+  // const navbarHeight = "59.2px";
   return (
     <ul
-      className="left-0 w-2/12 flex flex-col bg-violet-800 py-8"
-      style={{
-        minHeight: `calc(100vh - ${navbarHeight})`,
-      }}
+      className="sticky left-0 top-0 w-2/12 flex flex-col bg-violet-800 py-8"
     >
-      <Link
+      <li
         className={`w-full flex items-center gap-1 text-md font-semibold ${
-          activeDashboardMenu === "home" ? "bg-white text-black" : "text-white"
+          menuOption === "home" ? "bg-white text-black" : "text-white"
         } hover:bg-white hover:text-black p-2 my-1 cursor-pointer`}
-        // onClick={() => handleActiveMenuOption("Home")}
-        to="/admin/dashboard/home"
+        onClick={() =>
+          dispatch({
+            type: "home",
+          })
+        }
       >
         <IoIosArrowForward className="inline align-middle" />
         <span>Home</span>
-      </Link>
-      <Link
+      </li>
+      <li
         className={`w-full flex items-center gap-1 text-md font-semibold ${
-          activeDashboardMenu === "users" ? "bg-white text-black" : "text-white"
+          menuOption === "users-management"
+            ? "bg-white text-black"
+            : "text-white"
         } hover:bg-white hover:text-black p-2 my-1 cursor-pointer`}
-        // onClick={() => handleActiveMenuOption("User")}
-        to="/admin/dashboard/users"
+        onClick={() =>
+          dispatch({
+            type: "users-management",
+          })
+        }
       >
         <IoIosArrowForward className="inline align-middle" />
         <span>User Management</span>
-      </Link>
-      <Link
+      </li>
+      <li
         className={`w-full flex items-center gap-1 text-md  font-semibold ${
-          activeDashboardMenu === "courses" ? "bg-white text-black" : "text-white"
+          menuOption === "courses-management"
+            ? "bg-white text-black"
+            : "text-white"
         } hover:bg-white hover:text-black p-2 my-1 cursor-pointer`}
-        // onClick={() => handleActiveMenuOption("Course")}
-        to="/admin/dashboard/courses"
+        onClick={() =>
+          dispatch({
+            type: "courses-management",
+          })
+        }
       >
         <IoIosArrowForward className="inline align-middle" />
         <span>Courses Management</span>
-      </Link>
-      <Link
+      </li>
+      <li
         className={`w-full flex items-center gap-1 text-md font-semibold ${
-          activeDashboardMenu === "setting" ? "bg-white text-black" : "text-white"
+          menuOption === "setting"
+            ? "bg-white text-black"
+            : "text-white"
         } hover:bg-white hover:text-black p-2 my-1 cursor-pointer`}
-        // onClick={() => handleActiveMenuOption("Setting")}
-        to="/admin/dashboard/setting"
+        onClick={() =>
+          dispatch({
+            type: "setting",
+          })
+        }
       >
         <IoIosArrowForward className="inline align-middle" />
         <span>Setting & Configuration</span>
-      </Link>
-      <Link
+      </li>
+      <li
         className={`w-full flex items-center gap-1 text-md font-semibold ${
-          activeDashboardMenu === "notifications" ? "bg-white text-black" : "text-white"
+          menuOption === "notifications"
+            ? "bg-white text-black"
+            : "text-white"
         } hover:bg-white hover:text-black p-2 my-1 cursor-pointer`}
-        // onClick={() => handleActiveMenuOption("Notification")}
-        to="/admin/dashboard/notifications"
+        onClick={() =>
+          dispatch({
+            type: "notifications",
+          })
+        }
       >
         <IoIosArrowForward className="inline align-middle" />
         <span>Notifications</span>
-      </Link>
-      <Link
+      </li>
+      <li
         className={`w-full flex items-center gap-1 text-md font-semibold ${
-          activeDashboardMenu === "security" ? "bg-white text-black" : "text-white"
+          menuOption === "security"
+            ? "bg-white text-black"
+            : "text-white"
         } hover:bg-white hover:text-black p-2 my-1 cursor-pointer`}
-        // onClick={() => handleActiveMenuOption("Security")}
-        to="/admin/dashboard/security"
+        onClick={() =>
+          dispatch({
+            type: "security",
+          })
+        }
       >
         <IoIosArrowForward className="inline align-middle" />
         <span>Security & Access</span>
-      </Link>
+      </li>
     </ul>
   );
 };
